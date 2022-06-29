@@ -3,7 +3,16 @@
 		"rules": "firestore.rules",
 		"indexes": "firestore.indexes.json"
 	},
-	"hosting": [],
+	"hosting": {
+		"public": "frontend/dist",
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"rewrites": [
+			{
+				"source": "**",
+				"destination": "/index.html"
+			}
+		]
+	},
 	"functions": {
 		"predeploy": [],
 		"postdeploy": [],

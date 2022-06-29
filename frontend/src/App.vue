@@ -1,21 +1,28 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+	<h1 class="font-sans">Hi</h1>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<script setup lang="ts">
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadString } from 'firebase/storage';
+
+const firebaseConfig = {
+	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+	projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+	storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+};
+
+const app = initializeApp(firebaseConfig);
+
+console.log(app);
+
+const storage = getStorage(app);
+
+const file = ref(storage, 'test.txt');
+
+uploadString(file, 'test').then((snapshot) => {
+	console.log('Uploaded a base64url string!');
+});
+</script>
+
+<style></style>

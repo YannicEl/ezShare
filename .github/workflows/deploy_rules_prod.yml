@@ -1,0 +1,31 @@
+name: Deploy Firebase Rules DEV
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'firestore.indexes.json'
+      - 'firestore.rules'
+      - 'storage.rules'
+
+jobs:
+  deploy_rules:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: prod
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: Deploy Rules
+        run: npx firebase deploy --only storage,firestore --project prod
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

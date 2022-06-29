@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "ez-share-dev",
+    "prod": "ez-share-prod"
+  }
+}

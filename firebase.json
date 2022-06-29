@@ -1,0 +1,17 @@
+{
+	"firestore": {
+		"rules": "firestore.rules",
+		"indexes": "firestore.indexes.json"
+	},
+	"hosting": [],
+	"functions": {
+		"predeploy": [],
+		"postdeploy": [],
+		"ignore": ["node_modules"],
+		"source": "backend",
+		"runtime": "nodejs16"
+	},
+	"storage": {
+		"rules": "storage.rules"
+	}
+}

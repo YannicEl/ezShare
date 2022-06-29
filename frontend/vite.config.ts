@@ -12,6 +12,7 @@ export default defineConfig({
 		}),
 		Unocss(),
 		Components({
+			dirs: ['src/components', 'src/pages'],
 			dts: true,
 		}),
 		AutoImport({

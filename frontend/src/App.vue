@@ -1,34 +1,25 @@
 <template>
-	<label for="file">
-		<input type="file" name="file" id="file" @change="upload" multiple />
-	</label>
-
-	<div class="flex flex-col gap-2">
-		<div v-for="file in files">
-			<div>{{ file.value.status }}</div>
-			<div>{{ file.value.progress }} %</div>
-		</div>
-	</div>
+	<Download v-if="route === '/download'" :downloadId="downloadId"></Download>
+	<Home v-else></Home>
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue';
-import { UploadTask, useStorage } from './composables/useStorage';
+const { pathname } = window.location;
 
-const { uploadFiles } = useStorage();
+let route = '/';
+let downloadId = $ref('');
 
-const files = ref<Ref<UploadTask>[]>([]);
+if (pathname.startsWith('/download')) {
+	route = '/download';
 
-const upload = (e: Event) => {
-	const elm = e.target as HTMLInputElement;
+	const parts = pathname.split('/');
 
-	if (!elm.files?.length) {
-		console.log('Please select files');
-		return;
+	if (parts.length !== 3) {
+		console.log('Download link malformed');
 	}
 
-	files.value = uploadFiles(elm.files);
-};
+	downloadId = parts[2];
+}
 </script>
 
 <style></style>

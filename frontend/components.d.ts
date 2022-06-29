@@ -5,7 +5,8 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Download: typeof import('./src/pages/download.vue')['default']
+    Home: typeof import('./src/pages/home.vue')['default']
   }
 }
 

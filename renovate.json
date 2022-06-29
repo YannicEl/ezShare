@@ -1,0 +1,4 @@
+{
+	"extends": ["@nuxtjs"],
+	"baseBranches": ["dev"]
+}

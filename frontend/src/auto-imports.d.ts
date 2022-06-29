@@ -201,7 +201,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useSpeechRecognition: typeof import('@vueuse/core')['useSpeechRecognition']
   const useSpeechSynthesis: typeof import('@vueuse/core')['useSpeechSynthesis']
-  const useStorage: typeof import('@vueuse/core')['useStorage']
+  const useStorage: typeof import('./composables/useStorage')['useStorage']
   const useStorageAsync: typeof import('@vueuse/core')['useStorageAsync']
   const useStyleTag: typeof import('@vueuse/core')['useStyleTag']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
@@ -449,7 +449,7 @@ declare module '@vue/runtime-core' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSpeechRecognition: UnwrapRef<typeof import('@vueuse/core')['useSpeechRecognition']>
     readonly useSpeechSynthesis: UnwrapRef<typeof import('@vueuse/core')['useSpeechSynthesis']>
-    readonly useStorage: UnwrapRef<typeof import('@vueuse/core')['useStorage']>
+    readonly useStorage: UnwrapRef<typeof import('./composables/useStorage')['useStorage']>
     readonly useStorageAsync: UnwrapRef<typeof import('@vueuse/core')['useStorageAsync']>
     readonly useStyleTag: UnwrapRef<typeof import('@vueuse/core')['useStyleTag']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>

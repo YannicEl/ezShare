@@ -1,28 +1,34 @@
 <template>
-	<h1 class="font-sans">Hi</h1>
+	<label for="file">
+		<input type="file" name="file" id="file" @change="upload" multiple />
+	</label>
+
+	<div class="flex flex-col gap-2">
+		<div v-for="file in files">
+			<div>{{ file.value.status }}</div>
+			<div>{{ file.value.progress }} %</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { initializeApp } from 'firebase/app';
-import { getStorage, ref, uploadString } from 'firebase/storage';
+import { Ref } from 'vue';
+import { UploadTask, useStorage } from './composables/useStorage';
 
-const firebaseConfig = {
-	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-	projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-	storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+const { uploadFiles } = useStorage();
+
+const files = ref<Ref<UploadTask>[]>([]);
+
+const upload = (e: Event) => {
+	const elm = e.target as HTMLInputElement;
+
+	if (!elm.files?.length) {
+		console.log('Please select files');
+		return;
+	}
+
+	files.value = uploadFiles(elm.files);
 };
-
-const app = initializeApp(firebaseConfig);
-
-console.log(app);
-
-const storage = getStorage(app);
-
-const file = ref(storage, 'test.txt');
-
-uploadString(file, 'test').then((snapshot) => {
-	console.log('Uploaded a base64url string!');
-});
 </script>
 
 <style></style>

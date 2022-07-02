@@ -1,14 +1,17 @@
 import { FirebaseApp, getApp, initializeApp } from 'firebase/app';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   listAll,
   ref as storageRef,
+  StorageReference,
   uploadBytesResumable
 } from 'firebase/storage';
+import { nanoid } from 'nanoid';
 import { Ref } from 'vue';
 import { round } from '../helpers/helpers';
-import { UploadTask } from '../types';
+import { DownloadTask, UploadTask } from '../types';
 
 export const useStorage = () => {
 	const app = getFirebase();
@@ -17,17 +20,18 @@ export const useStorage = () => {
 	const uploadFile = (key: string, file: File): Ref<UploadTask> => {
 		const fileRef = storageRef(storage, `${key}/${file.name}`);
 
+		const uploadTask = uploadBytesResumable(fileRef, file);
+
 		let ret = ref<UploadTask>({
+			id: nanoid(),
 			ref: fileRef,
 			status: 'running',
 			progress: 0,
-			type: file.name.split('.').at(-1) || '',
+			type: file.name.split('.').at(-1),
 			name: file.name,
+			size: file.size,
+			canceleUpload: uploadTask.cancel,
 		});
-
-		console.log(file);
-
-		const uploadTask = uploadBytesResumable(fileRef, file);
 
 		uploadTask.on(
 			'state_changed',
@@ -79,10 +83,15 @@ export const useStorage = () => {
 		}));
 	};
 
+	const deleteFile = async (key: string, ref: StorageReference): Promise<void> => {
+		return deleteObject(ref);
+	};
+
 	return {
 		uploadFile,
 		uploadFiles,
 		downloadFiles,
+		deleteFile,
 	};
 };
 

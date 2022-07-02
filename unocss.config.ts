@@ -1,4 +1,5 @@
 import { defineConfig, presetIcons, presetUno, presetWebFonts } from 'unocss';
+import { presetScrollbar } from 'unocss-preset-scrollbar';
 
 export default defineConfig({
 	presets: [
@@ -12,5 +13,6 @@ export default defineConfig({
 				sans: 'Montserrat',
 			},
 		}),
+		presetScrollbar(),
 	],
 });

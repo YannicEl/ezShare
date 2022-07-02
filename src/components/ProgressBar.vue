@@ -1,7 +1,7 @@
 <template>
-	<div class="w-full h-3 bg-gray-700 rounded-full overflow-hidden">
+	<div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
 		<div
-			class="bg-blue-500 h-full transition-all"
+			class="bg-cool-gray-900 h-full transition-all"
 			:style="{ width: progress + '%' }"
 		></div>
 	</div>

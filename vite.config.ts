@@ -13,7 +13,7 @@ export default defineConfig({
 		Unocss(),
 		Components({
 			dirs: ['src/components', 'src/pages'],
-			dts: true,
+			dts: 'src/components.d.ts',
 		}),
 		AutoImport({
 			imports: ['vue', 'vue/macros', '@vueuse/core'],

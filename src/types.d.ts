@@ -6,11 +6,14 @@ export interface Route {
 }
 
 export interface UploadTask {
+	id: string;
 	ref: StorageReference;
 	status: 'running' | 'error' | 'success';
 	progress: number;
-	type: string;
+	type: string | undefined;
 	name: string;
+	size: number;
+	canceleUpload: () => boolean;
 }
 
 export interface DownloadTask {

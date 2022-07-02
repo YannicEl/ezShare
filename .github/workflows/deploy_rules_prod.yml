@@ -1,4 +1,4 @@
-name: Deploy Firebase Rules DEV
+name: Deploy Firebase Rules PROD
 
 on:
   push:

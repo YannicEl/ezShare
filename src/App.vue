@@ -1,25 +1,16 @@
 <template>
-	<Download v-if="route === '/download'" :downloadId="downloadId"></Download>
-	<Home v-else></Home>
+	<div class="h-screen w-screen grid place-items-center p-4 bg-hex-101010">
+		<Download v-if="curretRoute.route === '/download'" />
+		<Upload v-else />
+	</div>
 </template>
 
 <script setup lang="ts">
-const { pathname } = window.location;
-
-let route = '/';
-let downloadId = $ref('');
-
-if (pathname.startsWith('/download')) {
-	route = '/download';
-
-	const parts = pathname.split('/');
-
-	if (parts.length !== 3) {
-		console.log('Download link malformed');
-	}
-
-	downloadId = parts[2];
-}
+const { curretRoute } = useRouter();
 </script>
 
-<style></style>
+<style>
+html {
+	color: #101010;
+}
+</style>

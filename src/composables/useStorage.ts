@@ -4,40 +4,35 @@ import {
   getStorage,
   listAll,
   ref as storageRef,
-  TaskState,
   uploadBytesResumable
 } from 'firebase/storage';
 import { Ref } from 'vue';
 import { round } from '../helpers/helpers';
-
-export interface UploadTask {
-	status: TaskState;
-	progress: number;
-}
-
-export interface DownloadTask {
-	name: string;
-	getUrl: () => Promise<string>;
-}
+import { UploadTask } from '../types';
 
 export const useStorage = () => {
 	const app = getFirebase();
 	const storage = getStorage(app);
 
 	const uploadFile = (key: string, file: File): Ref<UploadTask> => {
+		const fileRef = storageRef(storage, `${key}/${file.name}`);
+
 		let ret = ref<UploadTask>({
+			ref: fileRef,
 			status: 'running',
 			progress: 0,
+			type: file.name.split('.').at(-1) || '',
+			name: file.name,
 		});
 
-		const fileRef = storageRef(storage, `${key}/${file.name}`);
+		console.log(file);
 
 		const uploadTask = uploadBytesResumable(fileRef, file);
 
 		uploadTask.on(
 			'state_changed',
 			({ bytesTransferred, totalBytes, state }) => {
-				ret.value.status = state;
+				ret.value.status = 'running';
 
 				ret.value.progress = round((bytesTransferred / totalBytes) * 100);
 			},

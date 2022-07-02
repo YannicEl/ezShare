@@ -8,7 +8,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Download: typeof import('./src/pages/download.vue')['default']
-    Home: typeof import('./src/pages/home.vue')['default']
+    FilePreview: typeof import('./src/components/FilePreview.vue')['default']
+    ProgressBar: typeof import('./src/components/ProgressBar.vue')['default']
+    RouterLink: typeof import('./src/components/RouterLink.vue')['default']
+    Upload: typeof import('./src/pages/upload.vue')['default']
   }
 
 }

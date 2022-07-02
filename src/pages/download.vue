@@ -1,5 +1,7 @@
 <template>
-	<div>Download {{ downloadId }}</div>
+	<div>Download</div>
+
+	<RouterLink route="/">To Home</RouterLink>
 
 	<div>
 		<div v-for="file in files" class="flex gap-8">
@@ -10,14 +12,23 @@
 </template>
 
 <script setup lang="ts">
-import { DownloadTask } from '../composables/useStorage';
+import { DownloadTask } from '../types';
 
 const { downloadFiles } = useStorage();
-const { downloadId } = defineProps<{ downloadId: string }>();
+const { curretRoute } = useRouter();
 
 let files = $ref<DownloadTask[]>([]);
 
 onMounted(async () => {
+	const { downloadId } = curretRoute.value.param || {};
+
+	console.log(curretRoute.value);
+
+	if (!downloadId) {
+		console.log('No Download Id');
+		return;
+	}
+
 	files = await downloadFiles(downloadId);
 });
 

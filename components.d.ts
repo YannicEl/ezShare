@@ -3,11 +3,12 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Download: typeof import('./src/pages/download.vue')['default']
     Home: typeof import('./src/pages/home.vue')['default']
   }
-}
 
-export {}
+}

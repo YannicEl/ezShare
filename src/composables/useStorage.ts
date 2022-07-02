@@ -1,6 +1,8 @@
 import { FirebaseApp, getApp, initializeApp } from 'firebase/app';
 import {
+  getDownloadURL,
   getStorage,
+  listAll,
   ref as storageRef,
   TaskState,
   uploadBytesResumable
@@ -13,17 +15,22 @@ export interface UploadTask {
 	progress: number;
 }
 
+export interface DownloadTask {
+	name: string;
+	getUrl: () => Promise<string>;
+}
+
 export const useStorage = () => {
 	const app = getFirebase();
 	const storage = getStorage(app);
 
-	const uploadFile = (file: File): Ref<UploadTask> => {
+	const uploadFile = (key: string, file: File): Ref<UploadTask> => {
 		let ret = ref<UploadTask>({
 			status: 'running',
 			progress: 0,
 		});
 
-		const fileRef = storageRef(storage, file.name);
+		const fileRef = storageRef(storage, `${key}/${file.name}`);
 
 		const uploadTask = uploadBytesResumable(fileRef, file);
 
@@ -36,6 +43,24 @@ export const useStorage = () => {
 			},
 			(error) => {
 				ret.value.status = 'error';
+
+				switch (error.code) {
+					case 'storage/object-not-found':
+						// File doesn't exist
+						break;
+					case 'storage/unauthorized':
+						// User doesn't have permission to access the object
+						break;
+					case 'storage/canceled':
+						// User canceled the upload
+						break;
+
+					// ...
+
+					case 'storage/unknown':
+						// Unknown error occurred, inspect the server response
+						break;
+				}
 			},
 			() => {
 				ret.value.status = 'success';
@@ -45,13 +70,24 @@ export const useStorage = () => {
 		return ret;
 	};
 
-	const uploadFiles = (files: FileList): Ref<UploadTask>[] => {
-		return Array.from(files).map((file) => uploadFile(file));
+	const uploadFiles = (key: string, files: File[]): Ref<UploadTask>[] => {
+		return Array.from(files).map((file) => uploadFile(key, file));
+	};
+
+	const downloadFiles = async (key: string): Promise<DownloadTask[]> => {
+		const directoryRef = storageRef(storage, `${key}`);
+		const direcotry = await listAll(directoryRef);
+
+		return direcotry.items.map((file) => ({
+			name: file.name,
+			getUrl: () => getDownloadURL(file),
+		}));
 	};
 
 	return {
 		uploadFile,
 		uploadFiles,
+		downloadFiles,
 	};
 };
 

@@ -1,4 +1,5 @@
 {
 	"extends": ["@nuxtjs"],
-	"baseBranches": ["dev"]
+	"baseBranches": ["dev"],
+	"schedule": ["before 3am on Monday"]
 }

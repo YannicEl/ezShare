@@ -4,7 +4,11 @@ on:
   push:
     branches: [dev]
     paths:
-      - 'frontend/**'
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'unocss.config.js'
+      - 'vite.config.js'
 
 jobs:
   deploy_frontend:
@@ -12,10 +16,6 @@ jobs:
 
     environment:
       name: dev
-
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
       - name: Checkout

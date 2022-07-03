@@ -1,25 +1,23 @@
 <template>
-	<Download v-if="route === '/download'" :downloadId="downloadId"></Download>
-	<Home v-else></Home>
+	<div class="h-screen w-screen flex items-center justify-center p-4 bg-cool-gray-900">
+		<Download v-if="curretRoute.route === '/download'" />
+		<Upload v-else />
+	</div>
 </template>
 
 <script setup lang="ts">
-const { pathname } = window.location;
+import splitbee from '@splitbee/web';
 
-let route = '/';
-let downloadId = $ref('');
+const { curretRoute } = useRouter();
 
-if (pathname.startsWith('/download')) {
-	route = '/download';
-
-	const parts = pathname.split('/');
-
-	if (parts.length !== 3) {
-		console.log('Download link malformed');
-	}
-
-	downloadId = parts[2];
-}
+splitbee.init({
+	disableCookie: true,
+});
 </script>
 
-<style></style>
+<style>
+html {
+	color: #111827;
+	font-family: Montserrat, sans-serif;
+}
+</style>

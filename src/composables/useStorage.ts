@@ -1,43 +1,42 @@
 import { FirebaseApp, getApp, initializeApp } from 'firebase/app';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   listAll,
   ref as storageRef,
-  TaskState,
+  StorageReference,
   uploadBytesResumable
 } from 'firebase/storage';
+import { nanoid } from 'nanoid';
 import { Ref } from 'vue';
 import { round } from '../helpers/helpers';
-
-export interface UploadTask {
-	status: TaskState;
-	progress: number;
-}
-
-export interface DownloadTask {
-	name: string;
-	getUrl: () => Promise<string>;
-}
+import { DownloadTask, UploadTask } from '../types';
 
 export const useStorage = () => {
 	const app = getFirebase();
 	const storage = getStorage(app);
 
 	const uploadFile = (key: string, file: File): Ref<UploadTask> => {
-		let ret = ref<UploadTask>({
-			status: 'running',
-			progress: 0,
-		});
-
 		const fileRef = storageRef(storage, `${key}/${file.name}`);
 
 		const uploadTask = uploadBytesResumable(fileRef, file);
 
+		let ret = ref<UploadTask>({
+			id: nanoid(),
+			ref: fileRef,
+			status: 'running',
+			progress: 0,
+			type: file.name.split('.').at(-1),
+			name: file.name,
+			size: file.size,
+			canceleUpload: uploadTask.cancel,
+		});
+
 		uploadTask.on(
 			'state_changed',
 			({ bytesTransferred, totalBytes, state }) => {
-				ret.value.status = state;
+				ret.value.status = 'running';
 
 				ret.value.progress = round((bytesTransferred / totalBytes) * 100);
 			},
@@ -79,15 +78,22 @@ export const useStorage = () => {
 		const direcotry = await listAll(directoryRef);
 
 		return direcotry.items.map((file) => ({
+			id: nanoid(),
 			name: file.name,
+			type: file.name.split('.').at(-1),
 			getUrl: () => getDownloadURL(file),
 		}));
+	};
+
+	const deleteFile = async (key: string, ref: StorageReference): Promise<void> => {
+		return deleteObject(ref);
 	};
 
 	return {
 		uploadFile,
 		uploadFiles,
 		downloadFiles,
+		deleteFile,
 	};
 };
 

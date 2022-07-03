@@ -3,7 +3,7 @@
 ## Frontend
 
 DEV: [https://ez-share-dev.web.app/](https://ez-share-dev.web.app/)  
-PROD: [https://ez-share-prod.web.app/](https://ez-share-prod.web.app/)
+PROD: [https://ezshare.yannic.at/](https://ezshare.yannic.at/)
 
 ## Frontend deploy
 

@@ -78,7 +78,9 @@ export const useStorage = () => {
 		const direcotry = await listAll(directoryRef);
 
 		return direcotry.items.map((file) => ({
+			id: nanoid(),
 			name: file.name,
+			type: file.name.split('.').at(-1),
 			getUrl: () => getDownloadURL(file),
 		}));
 	};

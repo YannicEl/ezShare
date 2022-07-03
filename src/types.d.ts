@@ -17,6 +17,7 @@ export interface UploadTask {
 }
 
 export interface DownloadTask {
+  id: string;
 	name: string;
 	getUrl: () => Promise<string>;
 }

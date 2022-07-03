@@ -8,7 +8,7 @@
 			<div class="flex items-center h-6">
 				<ProgressBar v-if="task.status !== 'success'" :progress="task.progress" />
 				<div v-if="task.status === 'success'" class="font-semibold opacity-80 text-sm">
-					{{ size }} <span v-if="task.type">● {{ task.type }}</span>
+					{{ size }} <span v-if="task.type">● {{ task.type.toUpperCase() }}</span>
 				</div>
 			</div>
 		</div>
@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatBytes } from '../helpers/helpers';
 import { UploadTask } from '../types';
 
 const { task } = defineProps<{ task: UploadTask }>();
@@ -33,21 +34,5 @@ const emit = defineEmits<{
 	(event: 'remove', value: UploadTask): void;
 }>();
 
-const size = computed(() => {
-	const bytes = task.size;
-
-	const kilobytes = bytes / 1000;
-	if (kilobytes < 1) return `${bytes} bytes`;
-
-	const megabytes = kilobytes / 1000;
-	if (megabytes < 1) return `${kilobytes.toFixed(2)} KB`;
-
-	const gigabytes = megabytes / 1000;
-	if (gigabytes < 1) return `${megabytes.toFixed(2)} MB`;
-
-	const terabytes = gigabytes / 1000;
-	if (terabytes < 1) return `${gigabytes.toFixed(2)} GB`;
-
-	return `${terabytes.toFixed(2)} TB`;
-});
+const size = computed(() => formatBytes(task.size));
 </script>

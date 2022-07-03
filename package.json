@@ -10,6 +10,7 @@
 		"deploy:prod": "pnpm run build && firebase deploy --only hosting --project prod"
 	},
 	"dependencies": {
+		"@splitbee/web": "^0.3.0",
 		"@unocss/reset": "^0.42.0",
 		"@vueuse/core": "^8.7.5",
 		"firebase": "^9.8.4",

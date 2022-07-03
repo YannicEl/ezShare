@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@iconify-json/material-symbols': ^1.1.8
+  '@splitbee/web': ^0.3.0
   '@types/wicg-file-system-access': ^2020.9.5
   '@unocss/reset': ^0.42.0
   '@vitejs/plugin-vue': ^2.3.3
@@ -21,6 +22,7 @@ specifiers:
   vue-tsc: ^0.38.2
 
 dependencies:
+  '@splitbee/web': 0.3.0
   '@unocss/reset': 0.42.0
   '@vueuse/core': 8.7.5_vue@3.2.37
   firebase: 9.8.4
@@ -1974,6 +1976,10 @@ packages:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /@splitbee/web/0.3.0:
+    resolution: {integrity: sha512-jNPDKg0GQGa4jCaBc6JQsv0NHmBA80WCwZE49nFyhcbo32WF0GyqXeice7ZApy7OUHI16bAUAzm4MOQw3gvxfQ==}
+    dev: false
 
   /@surma/rollup-plugin-off-main-thread/2.2.3:
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}

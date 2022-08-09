@@ -11,25 +11,25 @@
 	},
 	"dependencies": {
 		"@splitbee/web": "^0.3.0",
-		"@unocss/reset": "^0.44.7",
+		"@unocss/reset": "^0.45.5",
 		"@vueuse/core": "^8.9.4",
-		"firebase": "^9.9.1",
+		"firebase": "^9.9.2",
 		"nanoid": "^4.0.0",
 		"vue": "^3.2.37"
 	},
 	"devDependencies": {
-		"@iconify-json/material-symbols": "^1.1.12",
+		"@iconify-json/material-symbols": "^1.1.13",
 		"@types/wicg-file-system-access": "^2020.9.5",
 		"@vitejs/plugin-vue": "^3.0.1",
-		"firebase-tools": "^11.3.0",
+		"firebase-tools": "^11.5.0",
 		"prettier": "^2.7.1",
 		"typescript": "^4.7.4",
-		"unocss": "^0.44.7",
+		"unocss": "^0.45.5",
 		"unocss-preset-scrollbar": "^0.2.1",
-		"unplugin-auto-import": "^0.10.1",
-		"unplugin-vue-components": "^0.21.1",
-		"vite": "^3.0.2",
+		"unplugin-auto-import": "^0.11.1",
+		"unplugin-vue-components": "^0.22.4",
+		"vite": "^3.0.5",
 		"vite-plugin-pwa": "^0.12.3",
-		"vue-tsc": "^0.39.0"
+		"vue-tsc": "^0.39.5"
 	}
 }

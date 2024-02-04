@@ -10,7 +10,7 @@ specifiers:
   firebase: ^9.9.2
   firebase-tools: ^11.7.0
   nanoid: ^4.0.0
-  prettier: ^2.7.1
+  prettier: ^3.2.5
   typescript: ^4.7.4
   unocss: ^0.45.7
   unocss-preset-scrollbar: ^0.2.1
@@ -34,7 +34,7 @@ devDependencies:
   '@types/wicg-file-system-access': 2020.9.5
   '@vitejs/plugin-vue': 3.0.3_vite@3.0.7+vue@3.2.37
   firebase-tools: 11.7.0
-  prettier: 2.7.1
+  prettier: 3.2.5
   typescript: 4.7.4
   unocss: 0.45.7_vite@3.0.7
   unocss-preset-scrollbar: 0.2.1_unocss@0.45.7
@@ -2446,8 +2446,10 @@ packages:
     dev: true
     optional: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -3956,7 +3958,7 @@ packages:
     dependencies:
       '@apidevtools/json-schema-ref-parser': 9.0.9
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       body-parser: 1.20.0
       content-type: 1.0.4
       deep-freeze: 0.0.1
@@ -6331,9 +6333,9 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /prettier/2.7.1:
-    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
-    engines: {node: '>=10.13.0'}
+  /prettier/3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: true
 

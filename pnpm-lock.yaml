@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@iconify-json/material-symbols': ^1.1.14
   '@splitbee/web': ^0.3.0
-  '@types/wicg-file-system-access': ^2020.9.5
+  '@types/wicg-file-system-access': ^2023.10.5
   '@unocss/reset': ^0.45.7
   '@vitejs/plugin-vue': ^3.0.3
   '@vueuse/core': ^8.9.4
@@ -31,7 +31,7 @@ dependencies:
 
 devDependencies:
   '@iconify-json/material-symbols': 1.1.14
-  '@types/wicg-file-system-access': 2020.9.5
+  '@types/wicg-file-system-access': 2023.10.5
   '@vitejs/plugin-vue': 3.0.3_vite@3.0.7+vue@3.2.37
   firebase-tools: 11.7.0
   prettier: 2.7.1
@@ -2077,8 +2077,8 @@ packages:
   /@types/web-bluetooth/0.0.14:
     resolution: {integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==}
 
-  /@types/wicg-file-system-access/2020.9.5:
-    resolution: {integrity: sha512-UYK244awtmcUYQfs7FR8710MJcefL2WvkyHMjA8yJzxd1mo0Gfn88sRZ1Bls7hiUhA2w7ne1gpJ9T5g3G0wOyA==}
+  /@types/wicg-file-system-access/2023.10.5:
+    resolution: {integrity: sha512-e9kZO9kCdLqT2h9Tw38oGv9UNzBBWaR1MzuAavxPcsV/7FJ3tWbU6RI3uB+yKIDPGLkGVbplS52ub0AcRLvrhA==}
     dev: true
 
   /@unocss/cli/0.45.7:
@@ -2446,8 +2446,10 @@ packages:
     dev: true
     optional: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -3956,7 +3958,7 @@ packages:
     dependencies:
       '@apidevtools/json-schema-ref-parser': 9.0.9
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       body-parser: 1.20.0
       content-type: 1.0.4
       deep-freeze: 0.0.1

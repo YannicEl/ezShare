@@ -26,9 +26,15 @@ importers:
       prettier:
         specifier: 3.2.5
         version: 3.2.5
+      prettier-plugin-organize-imports:
+        specifier: ^3.2.4
+        version: 3.2.4(prettier@3.2.5)(typescript@5.4.5)
       prettier-plugin-svelte:
         specifier: 3.2.3
         version: 3.2.3(prettier@3.2.5)(svelte@5.0.0-next.123)
+      prettier-plugin-tailwindcss:
+        specifier: ^0.5.14
+        version: 0.5.14(prettier-plugin-organize-imports@3.2.4(prettier@3.2.5)(typescript@5.4.5))(prettier-plugin-svelte@3.2.3(prettier@3.2.5)(svelte@5.0.0-next.123))(prettier@3.2.5)
       svelte:
         specifier: 5.0.0-next.123
         version: 5.0.0-next.123
@@ -42,7 +48,7 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       unocss:
-        specifier: ^0.59.4
+        specifier: 0.59.4
         version: 0.59.4(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))
       vite:
         specifier: 5.2.11
@@ -50,6 +56,9 @@ importers:
       vitest:
         specifier: 1.6.0
         version: 1.6.0(@types/node@20.12.11)(terser@5.31.0)
+      wrangler:
+        specifier: 3.53.1
+        version: 3.53.1(@cloudflare/workers-types@4.20240502.0)
 
 packages:
 
@@ -1433,11 +1442,76 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
+  prettier-plugin-organize-imports@3.2.4:
+    resolution: {integrity: sha512-6m8WBhIp0dfwu0SkgfOxJqh+HpdyfqSSLfKKRZSFbDuEQXDDndb8fTpRWkUrX/uBenkex3MgnVk0J3b3Y5byog==}
+    peerDependencies:
+      '@volar/vue-language-plugin-pug': ^1.0.4
+      '@volar/vue-typescript': ^1.0.4
+      prettier: '>=2.0'
+      typescript: '>=2.9'
+    peerDependenciesMeta:
+      '@volar/vue-language-plugin-pug':
+        optional: true
+      '@volar/vue-typescript':
+        optional: true
+
   prettier-plugin-svelte@3.2.3:
     resolution: {integrity: sha512-wJq8RunyFlWco6U0WJV5wNCM7zpBFakS76UBSbmzMGpncpK98NZABaE+s7n8/APDCEVNHXC5Mpq+MLebQtsRlg==}
     peerDependencies:
       prettier: ^3.0.0
       svelte: ^3.2.0 || ^4.0.0-next.0 || ^5.0.0-next.0
+
+  prettier-plugin-tailwindcss@0.5.14:
+    resolution: {integrity: sha512-Puaz+wPUAhFp8Lo9HuciYKM2Y2XExESjeT+9NQoVFXZsPPnc9VYss2SpxdQ6vbatmt8/4+SN0oe0I1cPDABg9Q==}
+    engines: {node: '>=14.21.3'}
+    peerDependencies:
+      '@ianvs/prettier-plugin-sort-imports': '*'
+      '@prettier/plugin-pug': '*'
+      '@shopify/prettier-plugin-liquid': '*'
+      '@trivago/prettier-plugin-sort-imports': '*'
+      '@zackad/prettier-plugin-twig-melody': '*'
+      prettier: ^3.0
+      prettier-plugin-astro: '*'
+      prettier-plugin-css-order: '*'
+      prettier-plugin-import-sort: '*'
+      prettier-plugin-jsdoc: '*'
+      prettier-plugin-marko: '*'
+      prettier-plugin-organize-attributes: '*'
+      prettier-plugin-organize-imports: '*'
+      prettier-plugin-sort-imports: '*'
+      prettier-plugin-style-order: '*'
+      prettier-plugin-svelte: '*'
+    peerDependenciesMeta:
+      '@ianvs/prettier-plugin-sort-imports':
+        optional: true
+      '@prettier/plugin-pug':
+        optional: true
+      '@shopify/prettier-plugin-liquid':
+        optional: true
+      '@trivago/prettier-plugin-sort-imports':
+        optional: true
+      '@zackad/prettier-plugin-twig-melody':
+        optional: true
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-css-order:
+        optional: true
+      prettier-plugin-import-sort:
+        optional: true
+      prettier-plugin-jsdoc:
+        optional: true
+      prettier-plugin-marko:
+        optional: true
+      prettier-plugin-organize-attributes:
+        optional: true
+      prettier-plugin-organize-imports:
+        optional: true
+      prettier-plugin-sort-imports:
+        optional: true
+      prettier-plugin-style-order:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
 
   prettier@3.2.5:
     resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
@@ -3200,10 +3274,22 @@ snapshots:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
+  prettier-plugin-organize-imports@3.2.4(prettier@3.2.5)(typescript@5.4.5):
+    dependencies:
+      prettier: 3.2.5
+      typescript: 5.4.5
+
   prettier-plugin-svelte@3.2.3(prettier@3.2.5)(svelte@5.0.0-next.123):
     dependencies:
       prettier: 3.2.5
       svelte: 5.0.0-next.123
+
+  prettier-plugin-tailwindcss@0.5.14(prettier-plugin-organize-imports@3.2.4(prettier@3.2.5)(typescript@5.4.5))(prettier-plugin-svelte@3.2.3(prettier@3.2.5)(svelte@5.0.0-next.123))(prettier@3.2.5):
+    dependencies:
+      prettier: 3.2.5
+    optionalDependencies:
+      prettier-plugin-organize-imports: 3.2.4(prettier@3.2.5)(typescript@5.4.5)
+      prettier-plugin-svelte: 3.2.3(prettier@3.2.5)(svelte@5.0.0-next.123)
 
   prettier@3.2.5: {}
 

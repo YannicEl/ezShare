@@ -13,7 +13,7 @@
 		"@splitbee/web": "^0.3.0",
 		"@unocss/reset": "^0.45.7",
 		"@vueuse/core": "^8.9.4",
-		"firebase": "^9.9.2",
+		"firebase": "^10.11.1",
 		"nanoid": "^4.0.0",
 		"vue": "^3.2.37"
 	},

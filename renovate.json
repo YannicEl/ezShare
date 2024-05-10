@@ -1,5 +1,13 @@
 {
-	"extends": ["@nuxtjs"],
 	"baseBranches": ["main"],
-	"schedule": ["before 3am on Monday"]
+	"packageRules": [
+		{
+			"packageNames": ["node"],
+			"enabled": false
+		}
+	],
+	"rangeStrategy": "pin",
+	"npm": {
+		"commitMessageTopic": "{{prettyDepType}} {{depName}}"
+	}
 }

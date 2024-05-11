@@ -7,25 +7,31 @@
 		"node": "20"
 	},
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --port 3000",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "pnpm run test:integration && pnpm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "pnpm run test:integration && pnpm run test:unit",
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"lint": "prettier --check .",
 		"format": "prettier --write .",
 		"deploay:dev": "pnpm build && wrangler pages deploy",
-		"deploay:prod": "pnpm build && wrangler pages deploy --branch main"
+		"deploay:prod": "pnpm build && wrangler pages deploy --branch main",
+		"cf-typegen": "wrangler types --env preview  && move worker-configuration.d.ts src/",
+		"studio": "drizzle-kit studio",
+		"migrations:generate": "drizzle-kit generate",
+		"migrations:run": "wrangler d1 migrations apply ez-share-dev --env preview"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "4.20240502.0",
 		"@playwright/test": "1.44.0",
 		"@sveltejs/adapter-auto": "3.2.0",
 		"@sveltejs/adapter-cloudflare": "4.4.0",
 		"@sveltejs/kit": "2.5.7",
 		"@sveltejs/vite-plugin-svelte": "3.1.0",
+		"drizzle-kit": "0.21.1",
 		"prettier": "3.2.5",
 		"prettier-plugin-organize-imports": "3.2.4",
 		"prettier-plugin-svelte": "3.2.3",
@@ -38,5 +44,8 @@
 		"vite": "5.2.11",
 		"vitest": "1.6.0",
 		"wrangler": "3.55.0"
+	},
+	"dependencies": {
+		"drizzle-orm": "0.30.10"
 	}
 }

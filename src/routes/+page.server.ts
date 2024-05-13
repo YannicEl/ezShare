@@ -1,15 +1,23 @@
-import { getDb, getRandomId } from '$lib';
+import { getRandomId } from '$lib/random';
+import { getDb } from '$lib/server/db';
 import type { Actions } from '@sveltejs/kit';
+import { z } from 'zod';
 import { uploads } from '../../drizzle/schema';
+
+const schema = z.object({});
 
 export const actions: Actions = {
 	default: async ({ request, platform }) => {
 		const data = await request.formData();
-		const file = data.get('file') as File;
+		const files = data.getAll('file') as File[];
 
 		const publicId = getRandomId();
 
-		await platform?.env.BUCKET.put(`${publicId}/${file.name}`, file);
+		await Promise.all(
+			files.map(async (file) => {
+				return platform?.env.BUCKET.put(`${publicId}/${getRandomId()}`, file);
+			})
+		);
 
 		const db = getDb(platform?.env.DB!);
 		await db.insert(uploads).values({

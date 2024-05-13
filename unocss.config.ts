@@ -1,4 +1,4 @@
-import { defineConfig, presetIcons, presetUno, presetWebFonts } from 'unocss';
+import { defineConfig, presetIcons, presetUno } from 'unocss';
 
 export default defineConfig({
 	presets: [
@@ -6,11 +6,7 @@ export default defineConfig({
 		presetIcons({
 			scale: 1.2,
 			warn: true,
-		}),
-		presetWebFonts({
-			fonts: {
-				sans: 'Montserrat',
-			},
+			cdn: 'https://esm.sh/',
 		}),
 	],
 });

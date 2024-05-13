@@ -7,6 +7,9 @@
 
 <h1>Download you files</h1>
 
-{#each data.files as file}
-	<a href={file.key} target="_blank">{file.name}</a>
-{/each}
+<div class="flex flex-col gap-4">
+	<div>time: {data.time}</div>
+	{#each data.files as file}
+		<a href={file.key} target="_blank" class="underline">{file.name}</a>
+	{/each}
+</div>

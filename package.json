@@ -25,7 +25,7 @@
 		"migrations:run": "wrangler d1 migrations apply ez-share-dev --remote --env preview"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20240502.0",
+		"@cloudflare/workers-types": "4.20240512.0",
 		"@playwright/test": "1.44.0",
 		"@sveltejs/adapter-auto": "3.2.0",
 		"@sveltejs/adapter-cloudflare": "4.4.0",

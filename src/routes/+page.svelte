@@ -4,11 +4,13 @@
 	import type { ActionData } from './$types';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import UploadFilePreview from '$lib/components/UploadFilePreview.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	type Props = { form: ActionData };
 	let { form }: Props = $props();
 
 	let files = $state<File[]>([]);
+	let loading = $state(false);
 
 	const onFileSelect: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const { files: fileList } = currentTarget;
@@ -21,18 +23,19 @@
 		currentTarget.value = '';
 	};
 
-	const submitFunction: SubmitFunction = async ({ formData }) => {
+	const submitFunction: SubmitFunction = async ({ formData, cancel }) => {
+		formData.delete('file');
+
 		files.forEach((file) => {
 			formData.append('file', file);
 		});
 
-		const res = await fetch('/api/upload/create', {
-			method: 'POST',
-			body: JSON.stringify({ key: 'test' }),
-		});
+		loading = true;
 
-		const json = await res.json();
-		console.log(json);
+		return ({ update }) => {
+			loading = false;
+			update();
+		};
 	};
 
 	function removeFile(file: File): any {
@@ -55,12 +58,22 @@
 			<UploadFilePreview {file} remove={removeFile(file)} />
 		{/each}
 
+		<!-- <label>
+			Name
+			<input type="text" name="name" />
+		</label>
+
+		<label>
+			Number
+			<input type="number" name="number" />
+		</label> -->
+
 		<label>
 			File
 			<input name="file" type="file" multiple oninput={onFileSelect} />
 		</label>
 
-		<button class="rounded bg-black py-2 font-medium text-white">Upload</button>
+		<Button {loading}>Upload</Button>
 	</form>
 {:else}
 	<h1>Success!</h1>

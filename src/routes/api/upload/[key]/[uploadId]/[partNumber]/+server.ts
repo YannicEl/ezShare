@@ -1,4 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { error, type RequestHandler } from '@sveltejs/kit';
 
 export const PUT: RequestHandler = async ({ platform, request, params }) => {
 	const bucket = platform?.env.BUCKET!;
@@ -8,7 +8,7 @@ export const PUT: RequestHandler = async ({ platform, request, params }) => {
 	const multipartUpload = await bucket.resumeMultipartUpload(key, uploadId);
 
 	const body = await request.blob();
-	if (!body) return new Response('No Body', { status: 404 });
+	if (!body) error(404, { message: 'No Body' });
 
 	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), body);
 

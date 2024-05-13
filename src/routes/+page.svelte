@@ -21,10 +21,18 @@
 		currentTarget.value = '';
 	};
 
-	const submitFunction: SubmitFunction = ({ formData }) => {
+	const submitFunction: SubmitFunction = async ({ formData }) => {
 		files.forEach((file) => {
 			formData.append('file', file);
 		});
+
+		const res = await fetch('/api/upload/create', {
+			method: 'POST',
+			body: JSON.stringify({ key: 'test' }),
+		});
+
+		const json = await res.json();
+		console.log(json);
 	};
 
 	function removeFile(file: File): any {

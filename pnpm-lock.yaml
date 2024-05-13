@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@unocss/reset':
+        specifier: 0.60.0
+        version: 0.60.0
       drizzle-orm:
         specifier: 0.30.10
         version: 0.30.10(@cloudflare/workers-types@4.20240502.0)
+      zod:
+        specifier: 3.23.8
+        version: 3.23.8
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20240502.0
@@ -1083,6 +1089,9 @@ packages:
 
   '@unocss/preset-wind@0.60.1':
     resolution: {integrity: sha512-3RHDbVNyOWuRyt61XXqJ1jmHo6PV2LTrCbgEX0NvMBROfEP4p2G627t9fhls1cpNIe/HW5NFmiHjRZNFqCRdpA==}
+
+  '@unocss/reset@0.60.0':
+    resolution: {integrity: sha512-r4NUPb/je10ZUrdncSuHipeDqBn7gY5HEcdAx2Rse+O/yWJimVsBkb5sGU1na9fhUwxv0cYIiFiqoQaKzcnCpQ==}
 
   '@unocss/reset@0.60.1':
     resolution: {integrity: sha512-lOgbSVm8CDY11aEWusYrCcstvmm+Z/vc4/oYNcbECSAsbzsREPTmcMonhSFxav52jbmuTk5MP3cuHYVEJLuQ3A==}
@@ -2415,8 +2424,8 @@ packages:
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
 
-  zod@3.23.7:
-    resolution: {integrity: sha512-NBeIoqbtOiUMomACV/y+V3Qfs9+Okr18vR5c/5pHClPpufWOrsx8TENboDPe265lFdfewX2yBtNTLPvnmCxwog==}
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -3238,6 +3247,8 @@ snapshots:
       '@unocss/preset-mini': 0.60.1
       '@unocss/rule-utils': 0.60.1
 
+  '@unocss/reset@0.60.0': {}
+
   '@unocss/reset@0.60.1': {}
 
   '@unocss/rule-utils@0.60.1':
@@ -3518,7 +3529,7 @@ snapshots:
       glob: 8.1.0
       hanji: 0.0.5
       json-diff: 0.9.0
-      zod: 3.23.7
+      zod: 3.23.8
     transitivePeerDependencies:
       - supports-color
 
@@ -3969,7 +3980,7 @@ snapshots:
       workerd: 1.20240419.0
       ws: 8.17.0
       youch: 3.3.3
-      zod: 3.23.7
+      zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -4558,4 +4569,4 @@ snapshots:
 
   zimmerframe@1.1.2: {}
 
-  zod@3.23.7: {}
+  zod@3.23.8: {}

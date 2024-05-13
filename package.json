@@ -17,12 +17,12 @@
 		"test:unit": "vitest",
 		"lint": "prettier --check .",
 		"format": "prettier --write .",
-		"deploay:dev": "pnpm build && wrangler pages deploy",
-		"deploay:prod": "pnpm build && wrangler pages deploy --branch main",
+		"deploy:dev": "pnpm build && wrangler pages deploy --branch dev",
+		"deploy:prod": "pnpm build && wrangler pages deploy --branch main",
 		"cf-typegen": "wrangler types --env preview  && move worker-configuration.d.ts src/",
 		"studio": "drizzle-kit studio",
 		"migrations:generate": "drizzle-kit generate",
-		"migrations:run": "wrangler d1 migrations apply ez-share-dev --env preview"
+		"migrations:run": "wrangler d1 migrations apply ez-share-dev --remote --env preview"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20240502.0",
@@ -46,6 +46,8 @@
 		"wrangler": "3.55.0"
 	},
 	"dependencies": {
-		"drizzle-orm": "0.30.10"
+		"@unocss/reset": "0.60.0",
+		"drizzle-orm": "0.30.10",
+		"zod": "3.23.8"
 	}
 }

@@ -1,4 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { defineRequestHandler } from '$lib/server/handlers/requestHandler';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -10,15 +10,14 @@ const schema = z.object({
 	),
 });
 
-export const POST: RequestHandler = async ({ platform, request, params }) => {
+export const POST = defineRequestHandler({ schema }, async ({ platform, params, data }) => {
 	const bucket = platform?.env.BUCKET!;
 
 	const { key, uploadId } = params;
-	const { uploadedParts } = schema.parse(await request.json());
 
 	const multipartUpload = await bucket.resumeMultipartUpload(key, uploadId);
 
-	await multipartUpload.complete(uploadedParts);
+	await multipartUpload.complete(data.uploadedParts);
 
 	return Response.json({ success: true });
-};
+});

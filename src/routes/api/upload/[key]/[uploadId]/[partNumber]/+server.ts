@@ -1,6 +1,7 @@
-import { error, type RequestHandler } from '@sveltejs/kit';
+import { defineRequestHandler } from '$lib/server/handlers/requestHandler';
+import { error } from '@sveltejs/kit';
 
-export const PUT: RequestHandler = async ({ platform, request, params }) => {
+export const PUT = defineRequestHandler({}, async ({ platform, request, params }) => {
 	const bucket = platform?.env.BUCKET!;
 
 	const { key, uploadId, partNumber } = params;
@@ -13,4 +14,4 @@ export const PUT: RequestHandler = async ({ platform, request, params }) => {
 	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), body);
 
 	return Response.json(uploadPart);
-};
+});

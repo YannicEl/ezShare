@@ -12,19 +12,17 @@ export function defineFormAction<Data = undefined>(
 	{ schema }: DefineFormActionParams<Data>,
 	action: CustomAction<Data>
 ): Actions {
-	const fn: Action = async (params) => {
-		const { request } = params;
-
-		const formData = await request.formData();
-		const parsedFormData = formDataToObject(formData);
-
-		const data = schema?.safeParse(parsedFormData) as Data;
-
-		return action({ ...params, data });
-	};
-
 	return {
-		default: fn,
+		default: async (params) => {
+			const { request } = params;
+
+			const formData = await request.formData();
+			const parsedFormData = formDataToObject(formData);
+
+			const data = schema?.parse(parsedFormData) as Data;
+
+			return action({ ...params, data });
+		},
 	};
 }
 

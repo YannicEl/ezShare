@@ -31,5 +31,5 @@
 <button onclick={upload}>Upload</button>
 
 {#if success}
-	<a href="/download/{success}" target="_blank" class="underline">{success}</a>
+	<a href="/api/download/{success}" target="_blank" class="underline">{success}</a>
 {/if}

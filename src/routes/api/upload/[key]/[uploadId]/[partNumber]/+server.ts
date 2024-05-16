@@ -1,9 +1,7 @@
 import { defineRequestHandler } from '$lib/server/handlers/requestHandler';
 import { error } from '@sveltejs/kit';
 
-export const PUT = defineRequestHandler({}, async ({ platform, request, params }) => {
-	const bucket = platform?.env.BUCKET!;
-
+export const PUT = defineRequestHandler({}, async ({ request, params, locals: { bucket } }) => {
 	const { key, uploadId, partNumber } = params;
 
 	const multipartUpload = await bucket.resumeMultipartUpload(key, uploadId);

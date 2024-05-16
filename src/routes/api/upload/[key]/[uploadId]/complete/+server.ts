@@ -10,14 +10,15 @@ const schema = z.object({
 	),
 });
 
-export const POST = defineRequestHandler({ schema }, async ({ platform, params, data }) => {
-	const bucket = platform?.env.BUCKET!;
+export const POST = defineRequestHandler(
+	{ schema },
+	async ({ params, data, locals: { bucket } }) => {
+		const { key, uploadId } = params;
 
-	const { key, uploadId } = params;
+		const multipartUpload = await bucket.resumeMultipartUpload(key, uploadId);
 
-	const multipartUpload = await bucket.resumeMultipartUpload(key, uploadId);
+		await multipartUpload.complete(data.uploadedParts);
 
-	await multipartUpload.complete(data.uploadedParts);
-
-	return Response.json({ success: true });
-});
+		return Response.json({ success: true });
+	}
+);

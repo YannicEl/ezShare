@@ -1,10 +1,13 @@
 // See https://kit.svelte.dev/docs/types#app
+
+import type { DB } from '$lib/server/db';
+
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			db: D1Database;
+			db: DB;
 			bucket: R2Bucket;
 		}
 		// interface PageData {}

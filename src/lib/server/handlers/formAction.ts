@@ -1,5 +1,5 @@
 import type { Action, Actions } from '@sveltejs/kit';
-import { Schema } from 'zod';
+import type { Schema } from 'zod';
 
 type DefineFormActionParams<T> = {
 	schema?: Schema<T>;

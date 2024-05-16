@@ -1,11 +1,16 @@
 import { $fetch } from '$lib/fetch';
 
-export async function uploadFile(
-	file: File,
-	callback: (progress: number) => void = () => {}
-): Promise<string> {
-	const key = file.name;
+export type UploadFileParams = {
+	key: string;
+	file: File;
+	callback?: (progress: number) => void;
+};
 
+export async function uploadFile({
+	key,
+	file,
+	callback = () => {},
+}: UploadFileParams): Promise<string> {
 	const uploadId = await createUpload(key);
 
 	const chunkSize = 1024 * 1024 * 5;
@@ -15,7 +20,6 @@ export async function uploadFile(
 	while (currentChunkStart < file.size) {
 		const chunk = file.slice(currentChunkStart, currentChunkStart + chunkSize);
 		chunks.push(chunk);
-
 		currentChunkStart += chunkSize;
 	}
 

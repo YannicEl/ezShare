@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { FormEventHandler } from 'svelte/elements';
-	import type { ActionData } from './$types';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import type { ActionData, SubmitFunction } from './$types';
 	import UploadFilePreview from '$lib/components/UploadFilePreview.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { uploadFile } from '$lib/upload';
 
 	type Props = { form: ActionData };
 	let { form }: Props = $props();
@@ -26,14 +26,23 @@
 	const submitFunction: SubmitFunction = async ({ formData, cancel }) => {
 		formData.delete('file');
 
-		files.forEach((file) => {
-			formData.append('file', file);
-		});
-
 		loading = true;
 
-		return ({ update }) => {
+		return async ({ result, update }) => {
+			console.log(result);
+			if (result.type === 'success' && result.data) {
+				const { publicId } = result.data as { publicId: string };
+
+				await Promise.all(
+					files.map((file) => {
+						const key = `${publicId}/${file.name}`;
+						return uploadFile({ key, file });
+					})
+				);
+			}
+
 			loading = false;
+
 			update();
 		};
 	};

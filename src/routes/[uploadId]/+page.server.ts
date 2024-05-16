@@ -1,35 +1,22 @@
-import { getDb } from '$lib/server/db';
+import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import type { PageServerLoad } from '../$types';
 import { uploads } from '../../../drizzle/schema';
+import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, locals }) => {
-	const t1 = Date.now();
-	const query = await locals.bucket.list({
-		prefix: params.uploadId,
-	});
-	const t2 = Date.now();
-
-	const t3 = Date.now();
-	const db = getDb(locals.db);
+export const load: PageServerLoad = async ({ params, locals: { db } }) => {
 	const upload = await db.query.uploads.findFirst({
 		where: eq(uploads.publicId, params.uploadId),
 		with: { files: true },
 	});
-	const t4 = Date.now();
 
-	console.log('upload');
-	console.log(upload);
+	if (!upload) error(404, 'Upload not found');
 
-	const files = upload?.files.map((file) => {
-		const [_, filename] = file.key.split('/');
-		return { key: file.key, name: filename };
+	const files = upload.files.map(({ name, size }) => {
+		return { name, size };
 	});
 
 	return {
-		timeR2: t2 - t1,
-		timeD1: t4 - t3,
-		upload,
+		publicId: params.uploadId,
 		files,
 	};
 };

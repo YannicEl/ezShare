@@ -22,7 +22,7 @@
 		"cf-typegen": "wrangler types --env preview  && move worker-configuration.d.ts src/",
 		"studio": "drizzle-kit studio",
 		"migrations:generate": "drizzle-kit generate",
-		"migrations:run": "wrangler d1 migrations apply ez-share-dev --remote --env preview"
+		"migrations:run": "wrangler d1 migrations apply ez-share-dev --env preview"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20240512.0",

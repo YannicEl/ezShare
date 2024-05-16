@@ -14,7 +14,9 @@ export const uploadsRelations = relations(uploads, ({ many }) => ({
 
 export const files = sqliteTable('files', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
-	uploadId: integer('upload_id').references(() => uploads.id),
+	uploadId: integer('upload_id')
+		.references(() => uploads.id)
+		.notNull(),
 	name: text('name').notNull(),
 	size: integer('size').notNull(),
 });

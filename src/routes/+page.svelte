@@ -4,12 +4,17 @@
 	import type { ActionData, SubmitFunction } from './$types';
 	import UploadFilePreview from '$lib/components/UploadFilePreview.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { uploadFile } from '$lib/upload';
+	import { uploadFile, type FileUpload } from '$lib/upload.svelte';
 
 	type Props = { form: ActionData };
 	let { form }: Props = $props();
 
-	let files = $state<File[]>([]);
+	let files = $state<
+		{
+			file: File;
+			upload?: FileUpload;
+		}[]
+	>([]);
 	let loading = $state(false);
 
 	const onFileSelect: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
@@ -17,7 +22,7 @@
 		if (!fileList) return;
 
 		for (const file of fileList) {
-			files.push(file);
+			files.push({ file });
 		}
 
 		currentTarget.value = '';
@@ -33,12 +38,13 @@
 			if (result.type === 'success' && result.data) {
 				const { publicId } = result.data as { publicId: string };
 
-				await Promise.all(
-					files.map((file) => {
-						const key = `${publicId}/${file.name}`;
-						return uploadFile({ key, file });
-					})
-				);
+				files = files.map(({ file }) => {
+					const key = `${publicId}/${file.name}`;
+					const upload = uploadFile({ key, file });
+					return { file, upload };
+				});
+
+				await Promise.all(files.map(async ({ upload }) => upload?.start()));
 			}
 
 			loading = false;
@@ -48,7 +54,7 @@
 	};
 
 	function removeFile(file: File): any {
-		const index = files.indexOf(file);
+		const index = files.findIndex((e) => e.file === file);
 		if (index < 0) return;
 		files.splice(index, 1);
 	}
@@ -64,7 +70,7 @@
 		class="mt-4 flex flex-col gap-4"
 	>
 		{#each files as file}
-			<UploadFilePreview {file} remove={removeFile(file)} />
+			<UploadFilePreview file={file.file} upload={file.upload} remove={removeFile(file.file)} />
 		{/each}
 
 		<!-- <label>

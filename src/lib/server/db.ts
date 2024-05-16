@@ -1,4 +1,4 @@
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { eq, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from '../../../drizzle/schema';
@@ -23,4 +23,11 @@ type SelectUpload = InferSelectModel<typeof uploads>;
 type InsertUpload = InferInsertModel<typeof uploads>;
 export async function insertUpload(db: DB, upload: InsertUpload): Promise<SelectUpload[]> {
 	return db.insert(uploads).values(upload).returning();
+}
+
+export async function getUploadByPublicId(db: DB, publicId: string) {
+	return db.query.uploads.findFirst({
+		where: eq(uploads.publicId, publicId),
+		with: { files: true },
+	});
 }

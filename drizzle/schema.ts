@@ -16,13 +16,12 @@ export const files = sqliteTable('files', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	uploadId: integer('upload_id').references(() => uploads.id),
 	name: text('name').notNull(),
-	suffix: text('suffix').notNull(),
 	size: integer('size').notNull(),
 });
 
 export const filesRelation = relations(files, ({ one }) => ({
 	upload: one(uploads, {
-		fields: [files.id],
+		fields: [files.uploadId],
 		references: [uploads.id],
 	}),
 }));

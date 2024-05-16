@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "31bbfc65-b3b6-4fb9-be6e-cd4526458787",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "2b5dacf3-1cf7-4975-90bd-0217074c77fb",
+  "prevId": "31bbfc65-b3b6-4fb9-be6e-cd4526458787",
   "tables": {
     "files": {
       "name": "files",
@@ -23,13 +23,6 @@
         },
         "name": {
           "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "suffix": {
-          "name": "suffix",
           "type": "text",
           "primaryKey": false,
           "notNull": true,

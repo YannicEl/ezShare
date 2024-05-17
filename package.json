@@ -29,7 +29,7 @@
 		"@playwright/test": "1.44.0",
 		"@sveltejs/adapter-auto": "3.2.0",
 		"@sveltejs/adapter-cloudflare": "4.4.0",
-		"@sveltejs/kit": "2.5.8",
+		"@sveltejs/kit": "2.5.9",
 		"@sveltejs/vite-plugin-svelte": "3.1.0",
 		"drizzle-kit": "0.21.2",
 		"prettier": "3.2.5",
@@ -43,7 +43,7 @@
 		"unocss": "0.60.2",
 		"vite": "5.2.11",
 		"vitest": "1.6.0",
-		"wrangler": "3.56.0"
+		"wrangler": "3.57.0"
 	},
 	"dependencies": {
 		"@unocss/reset": "0.60.2",

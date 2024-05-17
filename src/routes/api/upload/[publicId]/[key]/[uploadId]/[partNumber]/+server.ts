@@ -1,10 +1,10 @@
-import { defineRequestHandler } from '$lib/server/handlers/requestHandler';
 import { error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-export const PUT = defineRequestHandler({}, async ({ request, params, locals: { bucket } }) => {
+export const PUT: RequestHandler = async ({ request, params, locals: { bucket } }) => {
 	const { publicId, key, uploadId, partNumber } = params;
 
-	const multipartUpload = await bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
+	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 
 	const body = await request.blob();
 	if (!body) error(404, { message: 'No Body' });
@@ -12,4 +12,4 @@ export const PUT = defineRequestHandler({}, async ({ request, params, locals: { 
 	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), body);
 
 	return Response.json(uploadPart);
-});
+};

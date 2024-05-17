@@ -15,6 +15,20 @@
       "when": 1715858170299,
       "tag": "0001_empty_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1715881231979,
+      "tag": "0002_cheerful_sunfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1715935713576,
+      "tag": "0003_lyrical_malice",
+      "breakpoints": true
     }
   ]
 }

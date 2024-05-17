@@ -9,4 +9,9 @@ export default defineConfig({
 			cdn: 'https://esm.sh/',
 		}),
 	],
+	theme: {
+		fontFamily: {
+			sans: ['Inter', 'sans-serif'],
+		},
+	},
 });

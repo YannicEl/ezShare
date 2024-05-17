@@ -6,47 +6,49 @@ export type UploadFileParams = {
 };
 
 export type FileUpload = {
-	start: () => Promise<string>;
+	start: () => Promise<string | undefined>;
 	abort: () => Promise<void>;
 	progress: number;
 };
-
-const stream = new ReadableStream();
 
 export function uploadFile({ key, file }: UploadFileParams): FileUpload {
 	let progress = $state(0);
 	let uploadId: string | null = null;
 
 	async function start() {
-		uploadId = await createUpload(key);
+		try {
+			uploadId = await createUpload(key);
 
-		const chunkSize = 1024 * 1024 * 5;
-		const chunks: Blob[] = [];
+			const chunkSize = 1024 * 1024 * 5;
+			const chunks: Blob[] = [];
 
-		let currentChunkStart = 0;
-		while (currentChunkStart < file.size) {
-			const chunk = file.slice(currentChunkStart, currentChunkStart + chunkSize);
-			chunks.push(chunk);
-			currentChunkStart += chunkSize;
+			let currentChunkStart = 0;
+			while (currentChunkStart < file.size) {
+				const chunk = file.slice(currentChunkStart, currentChunkStart + chunkSize);
+				chunks.push(chunk);
+				currentChunkStart += chunkSize;
+			}
+
+			const uploadedParts: R2UploadedPart[] = [];
+
+			let partNumber = 1;
+			let uploadedBytes = 0;
+			for await (const chunk of chunks) {
+				const uploadedPart = await uploadPart({ key, uploadId, partNumber, part: chunk });
+				uploadedParts.push(uploadedPart);
+
+				progress = uploadedParts.length / chunks.length;
+
+				uploadedBytes += chunk.size;
+				partNumber++;
+			}
+
+			await completeUpload({ key, uploadId, uploadedParts });
+
+			return key;
+		} catch (err) {
+			console.error(err);
 		}
-
-		const uploadedParts: R2UploadedPart[] = [];
-
-		let partNumber = 1;
-		let uploadedBytes = 0;
-		for await (const chunk of chunks) {
-			const uploadedPart = await uploadPart({ key, uploadId, partNumber, part: chunk });
-			uploadedParts.push(uploadedPart);
-
-			progress = (uploadedParts.length / chunks.length) * 100;
-
-			uploadedBytes += chunk.size;
-			partNumber++;
-		}
-
-		await completeUpload({ key, uploadId, uploadedParts });
-
-		return key;
 	}
 
 	async function abort() {

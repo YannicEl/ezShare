@@ -1,7 +1,8 @@
 import { getUploadByPublicId, insertFile } from '$lib/server/db';
-import { defineRequestHandler } from '$lib/server/handlers/requestHandler';
+import { validateJsonData } from '$lib/server/validation';
 import { error } from '@sveltejs/kit';
 import { z } from 'zod';
+import type { RequestHandler } from './$types';
 
 const schema = z.object({
 	uploadedParts: z.array(
@@ -12,24 +13,23 @@ const schema = z.object({
 	),
 });
 
-export const POST = defineRequestHandler(
-	{ schema },
-	async ({ params, data, locals: { db, bucket } }) => {
-		const { publicId, key, uploadId } = params;
-		const multipartUpload = await bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
+export const POST: RequestHandler = async ({ request, params, locals: { db, bucket } }) => {
+	const data = await validateJsonData(schema, request);
 
-		const r2Object = await multipartUpload.complete(data.uploadedParts);
-		const [_, name] = r2Object.key.split('/');
+	const { publicId, key, uploadId } = params;
+	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 
-		const upload = await getUploadByPublicId(db, publicId);
-		if (!upload) error(404, 'Upload not found');
+	const r2Object = await multipartUpload.complete(data.uploadedParts);
+	const [_, name] = r2Object.key.split('/');
 
-		await insertFile(db, {
-			uploadId: upload.id,
-			name,
-			size: r2Object.size,
-		});
+	const upload = await getUploadByPublicId(db, publicId);
+	if (!upload) error(404, 'Upload not found');
 
-		return Response.json({ success: true });
-	}
-);
+	await insertFile(db, {
+		uploadId: upload.id,
+		name,
+		size: r2Object.size,
+	});
+
+	return Response.json({ success: true });
+};

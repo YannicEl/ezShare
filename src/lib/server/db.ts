@@ -25,6 +25,10 @@ export async function insertUpload(db: DB, upload: InsertUpload): Promise<Select
 	return db.insert(uploads).values(upload).returning();
 }
 
+export async function updateUploadById(db: DB, upload: Omit<InsertUpload, 'id'> & { id: number }) {
+	return db.update(uploads).set(upload).where(eq(uploads.id, upload.id)).returning();
+}
+
 export async function getUploadByPublicId(db: DB, publicId: string) {
 	return db.query.uploads.findFirst({
 		where: eq(uploads.publicId, publicId),

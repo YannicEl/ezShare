@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatBytes } from '$lib/formating';
 	import type { FileUpload } from '$lib/upload.svelte';
-	import ProgressBar from '$lib/components/ProgressBar.svelte';
+	import Gauge from '$lib/components/Gauge.svelte';
 
 	type Props = {
 		file: File;
@@ -41,12 +41,12 @@
 			</div>
 		</div>
 
+		{#if upload}
+			<Gauge value={upload.progress} className="w-12" />
+		{/if}
+
 		<button type="button" onclick={remove} class="rounded bg-black px-2 py-1 font-medium text-white"
 			>delete</button
 		>
 	</div>
-
-	{#if upload}
-		<ProgressBar progress={upload.progress} />
-	{/if}
 </div>

@@ -19,7 +19,7 @@ export function uploadFile({ key, file }: UploadFileParams): FileUpload {
 		try {
 			uploadId = await createUpload(key);
 
-			const chunkSize = 1024 * 1024 * 5;
+			const chunkSize = 1024 * 1024 * 95;
 			const chunks: Blob[] = [];
 
 			let currentChunkStart = 0;
@@ -34,10 +34,18 @@ export function uploadFile({ key, file }: UploadFileParams): FileUpload {
 			let partNumber = 1;
 			let uploadedBytes = 0;
 			for await (const chunk of chunks) {
-				const uploadedPart = await uploadPart({ key, uploadId, partNumber, part: chunk });
+				const uploadedPart = await uploadPart({
+					key,
+					uploadId,
+					partNumber,
+					part: chunk,
+					callback: (chunkProgress) => {
+						progress = (uploadedBytes + chunk.size * chunkProgress) / file.size;
+					},
+				});
 				uploadedParts.push(uploadedPart);
 
-				progress = uploadedParts.length / chunks.length;
+				// progress = uploadedParts.length / chunks.length;
 
 				uploadedBytes += chunk.size;
 				partNumber++;
@@ -78,6 +86,7 @@ type UploadPartParams = {
 	uploadId: string;
 	partNumber: number;
 	part: Blob;
+	callback: (progress: number) => void;
 };
 
 async function uploadPart({
@@ -85,18 +94,29 @@ async function uploadPart({
 	uploadId,
 	partNumber,
 	part,
+	callback,
 }: UploadPartParams): Promise<R2UploadedPart> {
-	const headers = new Headers();
-	headers.append('Content-Type', 'application/octet-stream');
+	// const uploadedPart = await _fetch<R2UploadedPart>(
+	// 	`/api/upload/${key}/${uploadId}/${partNumber}`,
+	// 	{
+	// 		method: 'PUT',
+	// 		headers,
+	// 		body: part,
+	// 	}
+	// );
 
-	const uploadedPart = await _fetch<R2UploadedPart>(
-		`/api/upload/${key}/${uploadId}/${partNumber}`,
-		{
-			method: 'PUT',
-			headers,
-			body: part,
-		}
-	);
+	const xhr = new XMLHttpRequest();
+	xhr.upload.onprogress = ({ loaded, total }) => {
+		const progress = loaded / total;
+		callback(progress);
+	};
+
+	xhr.open('PUT', `/api/upload/${key}/${uploadId}/${partNumber}`);
+	xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+	xhr.send(part);
+
+	await new Promise((resolve) => (xhr.onload = resolve));
+	const uploadedPart = JSON.parse(xhr.responseText);
 
 	return uploadedPart;
 }

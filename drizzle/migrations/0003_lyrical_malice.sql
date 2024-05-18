@@ -1,1 +1,0 @@
-ALTER TABLE `uploads` ADD `status` text DEFAULT 'open' NOT NULL;

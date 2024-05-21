@@ -1,3 +1,4 @@
+import { getRandomId } from '$lib/random';
 import { getUploadByPublicId, insertFile } from '$lib/server/db';
 import { validateJsonData } from '$lib/server/validation';
 import { error } from '@sveltejs/kit';
@@ -26,6 +27,7 @@ export const POST: RequestHandler = async ({ request, params, locals: { db, buck
 	if (!upload) error(404, 'Upload not found');
 
 	await insertFile(db, {
+		publicId: getRandomId(),
 		uploadId: upload.id,
 		name,
 		size: r2Object.size,

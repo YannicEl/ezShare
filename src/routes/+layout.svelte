@@ -10,7 +10,7 @@
 	<Header />
 
 	<main
-		class="flex max-h-full w-full max-w-md flex-col overflow-y-auto rounded-lg border bg-white p-5 shadow-sm"
+		class="max-h-lg border-gray-3 flex h-full w-full max-w-md flex-col justify-between overflow-y-auto rounded-lg border bg-white shadow-sm"
 	>
 		<slot />
 	</main>

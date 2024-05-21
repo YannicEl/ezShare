@@ -19,7 +19,7 @@ export function uploadFile({ key, file }: UploadFileParams): FileUpload {
 		try {
 			uploadId = await createUpload(key);
 
-			const chunkSize = 1024 * 1024 * 95;
+			const chunkSize = 1024 * 1024 * 10;
 			const chunks: Blob[] = [];
 
 			let currentChunkStart = 0;
@@ -96,15 +96,6 @@ async function uploadPart({
 	part,
 	callback,
 }: UploadPartParams): Promise<R2UploadedPart> {
-	// const uploadedPart = await _fetch<R2UploadedPart>(
-	// 	`/api/upload/${key}/${uploadId}/${partNumber}`,
-	// 	{
-	// 		method: 'PUT',
-	// 		headers,
-	// 		body: part,
-	// 	}
-	// );
-
 	const xhr = new XMLHttpRequest();
 	xhr.upload.onprogress = ({ loaded, total }) => {
 		const progress = loaded / total;
@@ -113,6 +104,7 @@ async function uploadPart({
 
 	xhr.open('PUT', `/api/upload/${key}/${uploadId}/${partNumber}`);
 	xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+	xhr.setRequestHeader('Transfer-Encoding', 'chunked');
 	xhr.send(part);
 
 	await new Promise((resolve) => (xhr.onload = resolve));

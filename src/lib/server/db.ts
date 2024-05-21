@@ -1,6 +1,7 @@
 import { eq, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { drizzle } from 'drizzle-orm/d1';
+import type { SQLiteTable } from 'drizzle-orm/sqlite-core';
 import * as schema from '../../../drizzle/schema';
 import { files, uploads } from '../../../drizzle/schema';
 
@@ -13,25 +14,36 @@ export function getDb(D1: D1Database): DB {
 	return db;
 }
 
-type SelectFile = InferSelectModel<typeof files>;
-type InsertFile = InferInsertModel<typeof files>;
-export async function insertFile(db: DB, file: InsertFile): Promise<SelectFile[]> {
-	return db.insert(files).values(file).returning();
+async function insert<Table extends SQLiteTable>(
+	db: DB,
+	table: Table,
+	values: InferInsertModel<Table>
+): Promise<InferSelectModel<Table>> {
+	const [row] = await db.insert(table).values(values).returning();
+	return row as InferSelectModel<Table>;
 }
 
-type SelectUpload = InferSelectModel<typeof uploads>;
-type InsertUpload = InferInsertModel<typeof uploads>;
-export async function insertUpload(db: DB, upload: InsertUpload): Promise<SelectUpload[]> {
-	return db.insert(uploads).values(upload).returning();
+export type SelectFile = InferSelectModel<typeof files>;
+export type InsertFile = InferInsertModel<typeof files>;
+export async function insertFile(db: DB, values: InsertFile): Promise<SelectFile> {
+	return insert(db, files, values);
 }
 
-export async function updateUploadById(db: DB, upload: Omit<InsertUpload, 'id'> & { id: number }) {
-	return db.update(uploads).set(upload).where(eq(uploads.id, upload.id)).returning();
+export type SelectUpload = InferSelectModel<typeof uploads>;
+export type InsertUpload = InferInsertModel<typeof uploads>;
+export async function insertUpload(db: DB, values: InsertUpload): Promise<SelectUpload> {
+	return insert(db, uploads, values);
 }
 
 export async function getUploadByPublicId(db: DB, publicId: string) {
 	return db.query.uploads.findFirst({
 		where: eq(uploads.publicId, publicId),
 		with: { files: true },
+	});
+}
+
+export async function getFilesByUploadId(db: DB, uploadId: number) {
+	return db.query.files.findMany({
+		where: eq(files.uploadId, uploadId),
 	});
 }

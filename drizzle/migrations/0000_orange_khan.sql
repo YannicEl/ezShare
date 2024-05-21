@@ -1,5 +1,6 @@
 CREATE TABLE `files` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`public_id` text NOT NULL,
 	`upload_id` integer NOT NULL,
 	`name` text NOT NULL,
 	`size` integer NOT NULL,
@@ -18,4 +19,5 @@ CREATE TABLE `uploads` (
 	`deleted_at` integer
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `files_public_id_unique` ON `files` (`public_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `uploads_public_id_unique` ON `uploads` (`public_id`);

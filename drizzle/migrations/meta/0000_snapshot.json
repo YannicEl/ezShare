@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f3b9ed3d-ae1d-4fe6-9497-654df2b2500d",
+  "id": "0599fddc-dc5f-495d-995d-461a1d87288d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "files": {
@@ -13,6 +13,13 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "upload_id": {
           "name": "upload_id",
@@ -59,7 +66,15 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "files_public_id_unique": {
+          "name": "files_public_id_unique",
+          "columns": [
+            "public_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "files_upload_id_uploads_id_fk": {
           "name": "files_upload_id_uploads_id_fk",

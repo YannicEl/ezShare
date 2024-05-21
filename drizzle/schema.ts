@@ -13,7 +13,7 @@ const timestamps = {
 };
 
 export const uploads = sqliteTable('uploads', {
-	id: integer('id').notNull().primaryKey({ autoIncrement: true }),
+	id: integer('id').primaryKey({ autoIncrement: true }),
 	publicId: text('public_id').unique().notNull(),
 	status: text('status').notNull().$type<'open' | 'closed'>().default('open'),
 	...timestamps,
@@ -24,7 +24,8 @@ export const uploadsRelations = relations(uploads, ({ many }) => ({
 }));
 
 export const files = sqliteTable('files', {
-	id: integer('id').primaryKey({ autoIncrement: true }).notNull(),
+	id: integer('id').primaryKey({ autoIncrement: true }),
+	publicId: text('public_id').unique().notNull(),
 	uploadId: integer('upload_id')
 		.references(() => uploads.id)
 		.notNull(),

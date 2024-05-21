@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { FormEventHandler } from 'svelte/elements';
-	import type { ActionData, SubmitFunction } from './$types';
+	import type { ActionData, PageData, SubmitFunction } from './$types';
 	import UploadFilePreview from '$lib/components/UploadFilePreview.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { uploadFile, type FileUpload } from '$lib/upload.svelte';
@@ -11,10 +11,15 @@
 
 	let files = $state<
 		{
-			file: File;
+			uploadId?: string;
+			id?: string;
+			name: string;
+			size: number;
+			file?: File;
+			uploaded: boolean;
 			upload?: FileUpload;
 		}[]
-	>([]);
+	>(form?.files ? form.files : []);
 	let loading = $state(false);
 
 	const onFileSelect: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
@@ -22,13 +27,19 @@
 		if (!fileList) return;
 
 		for (const file of fileList) {
-			files.push({ file });
+			const { name, size } = file;
+			files.push({
+				file,
+				name,
+				size,
+				uploaded: false,
+			});
 		}
 
 		currentTarget.value = '';
 	};
 
-	const submitFunction: SubmitFunction = async ({ formData, cancel }) => {
+	const submitFunction: SubmitFunction = async ({ action, formData, cancel }) => {
 		formData.delete('file');
 
 		loading = true;
@@ -36,12 +47,14 @@
 		return async ({ result, update }) => {
 			console.log(result);
 			if (result.type === 'success' && result.data) {
-				const { publicId } = result.data as { publicId: string };
+				const { publicId } = result.data;
 
-				files = files.map(({ file }) => {
+				files = files.map((file) => {
 					const key = `${publicId}/${file.name}`;
-					const upload = uploadFile({ key, file });
-					return { file, upload };
+					file.upload = uploadFile({ key, file: file.file });
+					file.uploaded = false;
+
+					return file;
 				});
 
 				await Promise.all(files.map(async ({ upload }) => upload?.start()));
@@ -54,42 +67,54 @@
 	};
 
 	function removeFile(file: File): any {
-		const index = files.findIndex((e) => e.file === file);
-		if (index < 0) return;
-		files.splice(index, 1);
+		// const index = files.findIndex((e) => e.file === file);
+		// if (index < 0) return;
+		// files.splice(index, 1);
 	}
 </script>
 
 {#if !form}
-	<h1>Upload your files</h1>
+	<div class="border-gray-3 border-b p-5">
+		<h1>Upload your files</h1>
+	</div>
 
-	<form
-		method="POST"
-		use:enhance={submitFunction}
-		enctype="multipart/form-data"
-		class="mt-4 flex flex-col gap-4"
-	>
-		{#each files as file}
-			<UploadFilePreview file={file.file} upload={file.upload} remove={removeFile(file.file)} />
-		{/each}
+	<div class="flex flex-1 flex-col">
+		<div class="relative flex-1">
+			<ul class="absolute h-full w-full overflow-auto">
+				{#each files as file}
+					<li class="border-gray-3 border-b px-5 pb-2 pt-1">
+						<UploadFilePreview {...file} />
+					</li>
+				{/each}
 
-		<!-- <label>
-			Name
-			<input type="text" name="name" />
-		</label>
+				<form
+					id="upload"
+					method="POST"
+					action="?/upload"
+					use:enhance={submitFunction}
+					enctype="multipart/form-data"
+					class="flex flex-1 flex-col"
+				>
+					{#if form?.publicId}
+						<input type="hidden" name="uploadId" value={form.publicId} />
+					{/if}
 
-		<label>
-			Number
-			<input type="number" name="number" />
-		</label> -->
+					<label class="mt-4 flex items-center justify-center gap-2">
+						<div
+							class="flex w-max cursor-pointer items-center justify-center gap-2 rounded bg-black px-4 py-2 font-medium text-white"
+						>
+							Add Files <div class="i-mdi-upload"></div>
+						</div>
+						<input name="file" type="file" multiple oninput={onFileSelect} />
+					</label>
+				</form>
+			</ul>
+		</div>
 
-		<label>
-			File
-			<input name="file" type="file" multiple oninput={onFileSelect} />
-		</label>
-
-		<Button {loading}>Upload</Button>
-	</form>
+		<div class="border-gray-3 border-t p-5">
+			<Button form="upload" {loading}>Upload</Button>
+		</div>
+	</div>
 {:else}
 	<h1>Success!</h1>
 	<p>
@@ -98,3 +123,9 @@
 		>
 	</p>
 {/if}
+
+<style>
+	input[type='file']::file-selector-button {
+		display: none;
+	}
+</style>

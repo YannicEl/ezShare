@@ -1,4 +1,4 @@
-import { defineConfig, presetIcons, presetUno } from 'unocss';
+import { defineConfig, presetIcons, presetUno, transformerDirectives } from 'unocss';
 
 export default defineConfig({
 	presets: [
@@ -7,6 +7,11 @@ export default defineConfig({
 			scale: 1.2,
 			warn: true,
 			cdn: 'https://esm.sh/',
+		}),
+	],
+	transformers: [
+		transformerDirectives({
+			applyVariable: ['--apply'],
 		}),
 	],
 	theme: {

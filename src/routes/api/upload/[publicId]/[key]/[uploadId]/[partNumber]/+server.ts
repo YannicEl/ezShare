@@ -2,9 +2,6 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const PUT: RequestHandler = async ({ request, params, locals: { bucket } }) => {
-	console.log(request.headers.get('Content-Length'));
-	console.log(request.headers.get('Transfer-Encoding'));
-
 	const { publicId, key, uploadId, partNumber } = params;
 
 	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);

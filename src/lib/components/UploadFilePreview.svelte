@@ -1,60 +1,50 @@
 <script lang="ts">
 	import { formatBytes } from '$lib/formating';
-	import type { FileUpload } from '$lib/upload.svelte';
-	import Gauge from '$lib/components/Gauge.svelte';
 	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import type { UploadedFile } from '$lib/types';
 
 	type Props = {
-		uploadId?: string;
-		id?: string;
-		name: string;
-		size: number;
-		uploaded: boolean;
-		upload?: FileUpload;
-		remove?: () => void;
+		file: File | UploadedFile;
+		remove: (file: File) => void;
 	};
 
-	let { uploadId, id, name, size, uploaded, upload, remove }: Props = $props();
+	let { file, remove }: Props = $props();
 
 	let suffix = $derived.by(() => {
-		console.log(name);
-		const parts = name.split('.');
+		const parts = file.name.split('.');
 		if (parts.length < 2) return;
-
 		return parts[parts.length - 1].toUpperCase();
 	});
 
-	let fileSize = $derived(formatBytes(size));
+	let fileSize = $derived(formatBytes(file.size));
+
+	let fileInfo = $derived.by(() => {
+		const info = [];
+		info.push(fileSize);
+		if (suffix) info.push(suffix);
+		return info.join(' 🞄 ');
+	});
+
+	const submitFunction: SubmitFunction = async ({ cancel }) => {
+		cancel();
+		if (file instanceof File) remove(file);
+	};
 </script>
 
-<div class="flex flex-col gap-2">
-	<div class="flex items-center justify-between">
-		<div class="flex flex-col gap-1">
-			<div class="text-lg font-semibold">{name}</div>
-			<div class="flex gap-2">
-				<div
-					class="bg-blue-2 border-blue-3 text-blue-6 rounded-md border px-1.5 py-0.5 text-sm font-semibold"
-				>
-					{fileSize}
-				</div>
-				{#if suffix}
-					<div
-						class="bg-blue-2 border-blue-3 text-blue-6 rounded-md border px-1.5 py-0.5 text-sm font-semibold"
-					>
-						{suffix}
-					</div>
-				{/if}
-			</div>
-		</div>
+<div class="flex items-center justify-between">
+	<div class="flex flex-col">
+		<div class="font-medium">{file.name}</div>
+		<div class="text-gray-5 text-sm font-medium">{fileInfo}</div>
+	</div>
 
-		{#if upload}
-			<Gauge value={upload.progress} className="w-12" />
-		{/if}
-
-		<form method="POST" action="?/remove" use:enhance class="flex flex-1 flex-col">
-			<input type="hidden" name="upload" value={uploadId} />
-			<input type="hidden" name="file" value={id} />
-			<button class="rounded bg-black px-2 py-1 font-medium text-white">delete</button>
+	<div>
+		<form method="POST" action="?/remove" use:enhance={submitFunction} class="flex flex-1 flex-col">
+			{#if 'uploadId' in file && 'id' in file}
+				<input type="hidden" name="upload" value={file.uploadId} />
+				<input type="hidden" name="file" value={file.id} />
+			{/if}
+			<button class="i-mdi-delete-outline hover:text-red-5">delete</button>
 		</form>
 	</div>
 </div>

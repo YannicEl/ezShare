@@ -14,7 +14,6 @@
 	const onInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const { files: fileList } = currentTarget;
 		if (fileList) value.push(...fileList);
-		currentTarget.value = '';
 	};
 
 	function onDragover(event: DragEvent) {

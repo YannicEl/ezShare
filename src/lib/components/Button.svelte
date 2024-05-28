@@ -6,7 +6,7 @@
 	type Props = {
 		loading?: boolean;
 		icon?: string;
-		children: Snippet;
+		children?: Snippet;
 	} & HTMLButtonAttributes;
 
 	let { loading = false, children, icon, ...props }: Props = $props();
@@ -17,8 +17,13 @@
 		<Spinner className="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2" />
 	{/if}
 
-	<span class={loading ? 'opacity-0' : ''}>{@render children()}</span>
-	<span class={icon}></span>
+	{#if children}
+		<span class={loading ? 'opacity-0' : ''}>{@render children()}</span>
+	{/if}
+
+	{#if icon}
+		<span class={`${icon} ${loading ? 'opacity-0' : ''}`}></span>
+	{/if}
 </button>
 
 <style>

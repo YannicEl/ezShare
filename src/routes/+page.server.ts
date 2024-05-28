@@ -69,6 +69,8 @@ export const actions: Actions = {
 					});
 				})
 		);
+
+		return { success: true, action: 'upload', publicId: upload.publicId } as const;
 	},
 
 	remove: async ({ request, cookies, locals: { db, bucket } }) => {
@@ -89,6 +91,12 @@ export const actions: Actions = {
 	},
 
 	complete: async ({ request, cookies, locals: { db, bucket } }) => {
-		return fail(400, { error: 'unknown' });
+		const uploadId = cookies.get('uploadId');
+		if (!uploadId) error(404, 'Upload not found');
+
+		const upload = await getUploadByPublicId(db, uploadId);
+		if (!upload) error(404, 'Upload not found');
+
+		return { success: true, action: 'complete', publicId: upload.publicId } as const;
 	},
 };

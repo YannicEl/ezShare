@@ -21,6 +21,6 @@
 		{#if title}
 			<div class="font-medium">{title}</div>
 		{/if}
-		<div class="text-gray-7">{@render children()}</div>
+		<div class="text-gray-5">{@render children()}</div>
 	</div>
 </div>

@@ -1,7 +1,7 @@
 import { _fetch } from './fetch';
 
 export type UploadFileParams = {
-	key: string;
+	publicId: string;
 	file: File;
 };
 
@@ -11,13 +11,13 @@ export type FileUpload = {
 	progress: number;
 };
 
-export function uploadFile({ key, file }: UploadFileParams): FileUpload {
+export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
 	let progress = $state(0);
 	let uploadId: string | null = null;
 
 	async function start() {
 		try {
-			uploadId = await createUpload(key);
+			const { key, uploadId } = await createUpload(publicId);
 
 			const chunkSize = 1024 * 1024 * 10;
 			const chunks: Blob[] = [];
@@ -73,12 +73,12 @@ export function uploadFile({ key, file }: UploadFileParams): FileUpload {
 	};
 }
 
-async function createUpload(key: string): Promise<string> {
-	const { uploadId } = await _fetch<{ key: string; uploadId: string }>(`/api/upload/${key}`, {
+async function createUpload(publicId: string): Promise<{ key: string; uploadId: string }> {
+	const result = await _fetch<{ key: string; uploadId: string }>(`/api/upload/${publicId}`, {
 		method: 'POST',
 	});
 
-	return uploadId;
+	return result;
 }
 
 type UploadPartParams = {
@@ -104,7 +104,6 @@ async function uploadPart({
 
 	xhr.open('PUT', `/api/upload/${key}/${uploadId}/${partNumber}`);
 	xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-	xhr.setRequestHeader('Transfer-Encoding', 'chunked');
 	xhr.send(part);
 
 	await new Promise((resolve) => (xhr.onload = resolve));

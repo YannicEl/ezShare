@@ -37,7 +37,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex flex-col">
 		<div class="font-medium">{file.name}</div>
-		<div class="text-gray-5 text-sm font-medium">{fileInfo}</div>
+		<div class="text-gray-5 text-sm">{fileInfo}</div>
 	</div>
 
 	<div>

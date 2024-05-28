@@ -6,9 +6,10 @@ export const PUT: RequestHandler = async ({ request, params, locals: { bucket } 
 
 	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 
+	const body = await request.blob();
 	if (!request.body) error(404, { message: 'No Body' });
 
-	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), request.body);
+	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), body);
 
 	return Response.json(uploadPart);
 };

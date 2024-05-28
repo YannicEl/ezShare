@@ -25,7 +25,7 @@
 <label
 	ondrop={onDrop}
 	ondragover={onDragover}
-	class="border-gray-3 flex h-full cursor-pointer items-center justify-center rounded-md border border-2 border-dashed"
+	class="border-gray-3 flex h-full cursor-pointer items-center justify-center rounded-md border border-2 border-dashed p-4"
 >
 	<div class="text-gray-4 flex flex-col items-center gap-2 font-medium">
 		<div class="i-mdi-tray-arrow-up text-3xl"></div>

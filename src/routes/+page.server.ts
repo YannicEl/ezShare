@@ -1,43 +1,62 @@
 import { maybeArrayToArray } from '$lib/helpers';
 import { getRandomId } from '$lib/random';
-import {
-	getFilesByUploadId,
-	getUploadByPublicId,
-	insertFile,
-	insertUpload,
-	type SelectUpload,
-} from '$lib/server/db';
+import { getUploadByPublicId, insertFile, insertUpload, type SelectUpload } from '$lib/server/db';
 import { validateFormData } from '$lib/server/validation';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { files as dbFiles } from '../../drizzle/schema';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ cookies, locals: { db } }) => {
+	const uploadId = cookies.get('uploadId');
+	if (!uploadId) return;
+
+	const upload = await getUploadByPublicId(db, uploadId);
+	if (!upload) return;
+
+	const files = upload.files.map((file) => {
+		return {
+			uploadId: upload.publicId,
+			id: file.publicId,
+			name: file.name,
+			size: file.size,
+		};
+	});
+
+	return {
+		publicId: upload.publicId,
+		files,
+	};
+};
 
 const uploadSchema = z.object({
-	uploadId: z.string().optional(),
 	file: z.array(z.instanceof(File)).or(z.instanceof(File)).optional(),
 });
 
 const removeSchema = z.object({
-	upload: z.string(),
 	file: z.string(),
 });
 
 export const actions: Actions = {
-	upload: async ({ request, locals: { db, bucket } }) => {
+	upload: async ({ request, cookies, locals: { db, bucket } }) => {
 		const data = await validateFormData(uploadSchema, request);
 
 		let upload: SelectUpload | undefined;
-		if (data.uploadId) {
-			upload = await getUploadByPublicId(db, data.uploadId);
+		const uploadId = cookies.get('uploadId');
+		if (uploadId) {
+			upload = await getUploadByPublicId(db, uploadId);
 			if (!upload) error(404, 'Upload not found');
 		} else {
 			const publicId = getRandomId();
 			upload = await insertUpload(db, { publicId });
+			cookies.set('uploadId', upload.publicId, { path: '/' });
 		}
 
 		const files = maybeArrayToArray(data.file ?? []);
+
+		if (!files.length) return fail(422, { error: true });
+
 		await Promise.all(
 			files.map(async (file) => {
 				const fileId = getRandomId();
@@ -50,18 +69,6 @@ export const actions: Actions = {
 				});
 			})
 		);
-
-		const uploadedFiles = (await getFilesByUploadId(db, upload.id)).map((file) => {
-			return {
-				uploadId: upload.publicId,
-				id: file.publicId,
-				name: file.name,
-				size: file.size,
-				uploaded: true,
-			};
-		});
-
-		return { publicId: upload.publicId, files: uploadedFiles };
 	},
 
 	remove: async ({ request, locals: { db, bucket } }) => {
@@ -76,20 +83,5 @@ export const actions: Actions = {
 		await db.delete(dbFiles).where(eq(dbFiles.id, file.id));
 
 		await bucket.delete(`${upload.publicId}/${file.name}`);
-
-		const uploadedFiles = (await getFilesByUploadId(db, upload.id)).map((file) => {
-			return {
-				uploadId: upload.publicId,
-				id: file.publicId,
-				name: file.name,
-				size: file.size,
-				uploaded: true,
-			};
-		});
-
-		return {
-			publicId: upload.publicId,
-			files: uploadedFiles,
-		};
 	},
 };

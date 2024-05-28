@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData, SubmitFunction } from './$types';
+	import type { ActionData, PageData, SubmitFunction } from './$types';
 	import Button from '$lib/components/Button.svelte';
 	import DropzoneInput from '$lib/components/DropzoneInput.svelte';
 	import UploadList from '$lib/components/UploadList.svelte';
 	import { formatBytes } from '$lib/formating';
 
-	type Props = { form: ActionData };
-	let { form }: Props = $props();
+	type Props = { data: PageData; form: ActionData };
+	let { data, form }: Props = $props();
 
 	let loading = $state(false);
 	let selectedFiles = $state<File[]>([]);
 
 	let files = $derived.by(() => {
-		if (form?.files) return form.files;
+		if (data?.files) return data.files;
 		return selectedFiles;
 	});
 
@@ -42,10 +42,11 @@
 </script>
 
 <!-- {#if !form} -->
-<h1>Upload your files</h1>
+<h1>Upload your files {data?.publicId}</h1>
 
 {#if !files.length}
 	<form
+		id="upload"
 		method="POST"
 		action="?/upload"
 		use:enhance={submitFunction}
@@ -59,7 +60,18 @@
 {:else}
 	<UploadList {files} class="h-full" />
 
-	<div class="border-gray-2 flex items-center justify-between border-t pt-4">
+	<form
+		id="upload"
+		method="POST"
+		action="?/upload"
+		use:enhance={submitFunction}
+		enctype="multipart/form-data"
+		class="flex flex-1 flex-col gap-3"
+	>
+		<DropzoneInput name="file" multiple bind:value={selectedFiles} />
+	</form>
+
+	<div class="border-gray-2 flex items-center justify-between pt-4">
 		<div class="text-gray-5 font-medium">{sumFiles} 🞄 {sumSize}</div>
 
 		<div class="flex gap-4">

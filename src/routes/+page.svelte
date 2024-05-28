@@ -5,6 +5,7 @@
 	import DropzoneInput from '$lib/components/DropzoneInput.svelte';
 	import UploadList from '$lib/components/UploadList.svelte';
 	import { formatBytes } from '$lib/formating';
+	import Alert from '$lib/components/Alert.svelte';
 
 	type Props = { data: PageData; form: ActionData };
 	let { data, form }: Props = $props();
@@ -42,7 +43,7 @@
 </script>
 
 <!-- {#if !form} -->
-<h1>Upload your files {data?.publicId}</h1>
+<h1>Upload your files</h1>
 
 {#if !files.length}
 	<form
@@ -53,7 +54,7 @@
 		enctype="multipart/form-data"
 		class="flex flex-1 flex-col gap-3"
 	>
-		<DropzoneInput name="file" multiple bind:value={selectedFiles} />
+		<DropzoneInput name="file" multiple required bind:value={selectedFiles} />
 
 		<Button icon="i-mdi-plus" class="w-max place-self-end" {loading}>Add files</Button>
 	</form>
@@ -68,7 +69,7 @@
 		enctype="multipart/form-data"
 		class="flex flex-1 flex-col gap-3"
 	>
-		<DropzoneInput name="file" multiple bind:value={selectedFiles} />
+		<DropzoneInput name="file" multiple required bind:value={selectedFiles} />
 	</form>
 
 	<div class="border-gray-2 flex items-center justify-between pt-4">
@@ -81,43 +82,15 @@
 	</div>
 {/if}
 
-<!-- <div class="flex flex-1 flex-col">
-		<div class="relative flex-1">
-			<ul class="absolute h-full w-full overflow-auto">
-				{#each files as file}
-					<li class="border-gray-3 border-b px-5 pb-2 pt-1">
-						<UploadFilePreview {...file} />
-					</li>
-				{/each}
-
-				<form
-					id="upload"
-					method="POST"
-					action="?/upload"
-					use:enhance={submitFunction}
-					enctype="multipart/form-data"
-					class="flex flex-1 flex-col"
-				>
-					{#if form?.publicId}
-						<input type="hidden" name="uploadId" value={form.publicId} />
-					{/if}
-
-					<label class="mt-4 flex items-center justify-center gap-2">
-						<div
-							class="flex w-max cursor-pointer items-center justify-center gap-2 rounded bg-black px-4 py-2 font-medium text-white"
-						>
-							Add Files <div class="i-mdi-upload"></div>
-						</div>
-						<input name="file" type="file" multiple oninput={onFileSelect} />
-					</label>
-				</form>
-			</ul>
+{#if form?.error}
+	{#if form.error === 'file_not_found'}
+		<div class="flex flex-col gap-2">
+			<Alert type="error" title="Couldn't remove file"
+				>It appears that the file has already been removed.</Alert
+			>
 		</div>
-
-		<div class="border-gray-3 border-t p-5">
-			<Button form="upload" {loading}>Upload</Button>
-		</div>
-	</div> -->
+	{/if}
+{/if}
 
 <!-- {:else}
 	<h1>Success!</h1>

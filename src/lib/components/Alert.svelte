@@ -1,0 +1,24 @@
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+
+	type Props = {
+		type: 'error' | 'success' | 'warning';
+		title: string;
+		children: Snippet;
+	};
+	let { type, title, children }: Props = $props();
+</script>
+
+<div class="flex gap-2">
+	{#if type === 'error'}
+		<div class="i-mdi-alert text-red-5 text-xl"></div>
+	{:else if type === 'success'}
+		<div class="i-mdi-check-circle text-green-5 text-xl"></div>
+	{:else if type === 'warning'}
+		<div class="i-mdi-alert text-yellow-5 text-xl"></div>
+	{/if}
+	<div>
+		<div class="font-medium">{title}</div>
+		<div class="text-gray-7">{@render children()}</div>
+	</div>
+</div>

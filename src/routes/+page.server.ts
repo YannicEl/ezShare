@@ -55,8 +55,6 @@ export const actions: Actions = {
 
 		const files = maybeArrayToArray(data.file ?? []);
 
-		if (!files.length) return fail(422, { error: true });
-
 		await Promise.all(
 			files.map(async (file) => {
 				const fileId = getRandomId();
@@ -71,14 +69,17 @@ export const actions: Actions = {
 		);
 	},
 
-	remove: async ({ request, locals: { db, bucket } }) => {
+	remove: async ({ request, cookies, locals: { db, bucket } }) => {
 		const data = await validateFormData(removeSchema, request);
 
-		const upload = await getUploadByPublicId(db, data.upload);
+		const uploadId = cookies.get('uploadId');
+		if (!uploadId) error(404, 'Upload not found');
+
+		const upload = await getUploadByPublicId(db, uploadId);
 		if (!upload) error(404, 'Upload not found');
 
 		const file = upload.files.find((file) => file.publicId === data.file);
-		if (!file) error(404, 'File not found');
+		if (!file) return fail(400, { error: 'file_not_found' });
 
 		await db.delete(dbFiles).where(eq(dbFiles.id, file.id));
 

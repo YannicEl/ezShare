@@ -27,8 +27,10 @@
 	});
 
 	const submitFunction: SubmitFunction = async ({ cancel }) => {
-		cancel();
-		if (file instanceof File) remove(file);
+		if (file instanceof File) {
+			remove(file);
+			cancel();
+		}
 	};
 </script>
 
@@ -40,8 +42,7 @@
 
 	<div>
 		<form method="POST" action="?/remove" use:enhance={submitFunction} class="flex flex-1 flex-col">
-			{#if 'uploadId' in file && 'id' in file}
-				<input type="hidden" name="upload" value={file.uploadId} />
+			{#if 'id' in file}
 				<input type="hidden" name="file" value={file.id} />
 			{/if}
 			<button class="i-mdi-delete-outline hover:text-red-5">delete</button>

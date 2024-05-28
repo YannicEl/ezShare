@@ -8,7 +8,7 @@
 	} & HTMLAttributes<HTMLUListElement>;
 	let { files, ...props }: Props = $props();
 
-	function removeFile(file: File): any {
+	function removeFile(file: File): void {
 		const index = files.findIndex((_file) => (_file = file));
 		if (index < 0) return;
 		files.splice(index, 1);

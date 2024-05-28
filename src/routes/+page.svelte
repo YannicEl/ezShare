@@ -6,6 +6,7 @@
 	import UploadList from '$lib/components/UploadList.svelte';
 	import { formatBytes } from '$lib/formating';
 	import Alert from '$lib/components/Alert.svelte';
+	import PortalChild from '$lib/components/PortalChild.svelte';
 
 	type Props = { data: PageData; form: ActionData };
 	let { data, form }: Props = $props();
@@ -76,20 +77,27 @@
 		<div class="text-gray-5 font-medium">{sumFiles} 🞄 {sumSize}</div>
 
 		<div class="flex gap-4">
-			<!-- <Button icon="i-mdi-plus" class="w-max" {loading}>Add files</Button> -->
-			<Button form="upload" icon="i-mdi-tray-arrow-up" class="w-max" {loading}>Upload</Button>
+			<Button form="upload" icon="i-mdi-plus" class="w-max" {loading}>Add files</Button>
+
+			<form method="POST" action="?/complete" use:enhance>
+				<Button icon="i-mdi-share" class="w-max" {loading}>Share</Button>
+			</form>
 		</div>
 	</div>
 {/if}
 
 {#if form?.error}
-	{#if form.error === 'file_not_found'}
-		<div class="flex flex-col gap-2">
-			<Alert type="error" title="Couldn't remove file"
-				>It appears that the file has already been removed.</Alert
-			>
-		</div>
-	{/if}
+	<PortalChild>
+		{#if form.error === 'file_not_found'}
+			<Alert type="error" title="Couldn't remove file">
+				It appears that the file has already been removed.
+			</Alert>
+		{:else if form.error === 'unknown'}
+			<Alert type="error" title="Unknown">
+				An unknown error occured. Please try again or contact support.
+			</Alert>
+		{/if}
+	</PortalChild>
 {/if}
 
 <!-- {:else}

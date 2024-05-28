@@ -3,7 +3,7 @@
 
 	type Props = {
 		type: 'error' | 'success' | 'warning';
-		title: string;
+		title?: string;
 		children: Snippet;
 	};
 	let { type, title, children }: Props = $props();
@@ -18,7 +18,9 @@
 		<div class="i-mdi-alert text-yellow-5 text-xl"></div>
 	{/if}
 	<div>
-		<div class="font-medium">{title}</div>
+		{#if title}
+			<div class="font-medium">{title}</div>
+		{/if}
 		<div class="text-gray-7">{@render children()}</div>
 	</div>
 </div>

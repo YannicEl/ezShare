@@ -56,16 +56,18 @@ export const actions: Actions = {
 		const files = maybeArrayToArray(data.file ?? []);
 
 		await Promise.all(
-			files.map(async (file) => {
-				const fileId = getRandomId();
-				await bucket.put(`${upload.publicId}/${fileId}`, file);
-				await insertFile(db, {
-					publicId: fileId,
-					uploadId: upload.id,
-					name: file.name,
-					size: file.size,
-				});
-			})
+			files
+				.filter((file) => file.size > 0)
+				.map(async (file) => {
+					const fileId = getRandomId();
+					await bucket.put(`${upload.publicId}/${fileId}`, file);
+					await insertFile(db, {
+						publicId: fileId,
+						uploadId: upload.id,
+						name: file.name,
+						size: file.size,
+					});
+				})
 		);
 	},
 
@@ -84,5 +86,9 @@ export const actions: Actions = {
 		await db.delete(dbFiles).where(eq(dbFiles.id, file.id));
 
 		await bucket.delete(`${upload.publicId}/${file.name}`);
+	},
+
+	complete: async ({ request, cookies, locals: { db, bucket } }) => {
+		return fail(400, { error: 'unknown' });
 	},
 };

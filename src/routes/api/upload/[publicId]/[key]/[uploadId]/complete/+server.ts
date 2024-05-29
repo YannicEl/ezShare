@@ -25,7 +25,12 @@ export const POST: RequestHandler = async ({ request, params, locals: { db, buck
 	const { publicId, key, uploadId } = params;
 	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 
-	const r2Object = await multipartUpload.complete(data.uploadedParts);
+	await multipartUpload.complete(data.uploadedParts);
+
+	// TODO Only needed because multipartUpload retruns empty metadata object
+	const r2Object = await bucket.head(`${publicId}/${key}`);
+	if (!r2Object) error(404, 'Object not found');
+
 	const { filename, fileId } = metadataSchema.parse(r2Object.customMetadata);
 
 	const upload = await getUploadByPublicId(db, publicId);

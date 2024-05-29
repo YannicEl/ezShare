@@ -87,7 +87,7 @@ export const actions: Actions = {
 
 		await db.delete(dbFiles).where(eq(dbFiles.id, file.id));
 
-		await bucket.delete(`${upload.publicId}/${file.name}`);
+		await bucket.delete(`${upload.publicId}/${file.publicId}`);
 	},
 
 	complete: async ({ request, cookies, locals: { db, bucket } }) => {

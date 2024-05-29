@@ -21,6 +21,7 @@
 		"deploy:prod": "pnpm build && wrangler pages deploy --branch main",
 		"cf-typegen": "wrangler types --env preview  && move worker-configuration.d.ts src/",
 		"studio": "drizzle-kit studio",
+		"db:push": "drizzle-kit push",
 		"migrations:generate": "drizzle-kit generate",
 		"migrations:run:local": "wrangler d1 migrations apply ez-share-dev --env preview",
 		"migrations:run:dev": "wrangler d1 migrations apply ez-share-dev --remote --env preview",

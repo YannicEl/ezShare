@@ -8,6 +8,20 @@
       "when": 1716205872515,
       "tag": "0000_orange_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1716968434362,
+      "tag": "0001_mute_kitty_pryde",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1716971928640,
+      "tag": "0002_uneven_deathstrike",
+      "breakpoints": true
     }
   ]
 }

@@ -17,7 +17,7 @@ export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
 
 	async function start() {
 		try {
-			const { key, uploadId } = await createUpload(publicId);
+			const { key, uploadId } = await createUpload({ filename: file.name, publicId });
 
 			const chunkSize = 1024 * 1024 * 10;
 			const chunks: Blob[] = [];
@@ -73,9 +73,18 @@ export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
 	};
 }
 
-async function createUpload(publicId: string): Promise<{ key: string; uploadId: string }> {
+type CreateUploadParams = {
+	filename: string;
+	publicId: string;
+};
+
+async function createUpload({
+	filename,
+	publicId,
+}: CreateUploadParams): Promise<{ key: string; uploadId: string }> {
 	const result = await _fetch<{ key: string; uploadId: string }>(`/api/upload/${publicId}`, {
 		method: 'POST',
+		body: JSON.stringify({ filename }),
 	});
 
 	return result;

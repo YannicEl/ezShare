@@ -1,9 +1,10 @@
 <script lang="ts">
 	type Props = {
-		progress: number;
+		value: number;
 	};
+	let { value }: Props = $props();
 
-	let { progress }: Props = $props();
+	let progress = $derived((value * 100).toFixed(2));
 </script>
 
 <div class="h-3 w-full overflow-hidden rounded-full bg-gray-200">

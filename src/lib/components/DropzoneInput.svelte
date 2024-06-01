@@ -2,18 +2,26 @@
 	import type { FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
 
 	type Props = {
-		value: File[];
-	} & Omit<HTMLInputAttributes, 'type' | 'value'>;
-	let { value = $bindable(), ...props }: Props = $props();
+		value?: FileList;
+		oninput: (value: File[]) => void;
+	} & Omit<HTMLInputAttributes, 'type' | 'value' | 'oninput'>;
+	let { value = $bindable(), oninput: emitInput, ...props }: Props = $props();
 
 	function onDrop(event: DragEvent): void {
 		event.preventDefault();
-		if (event.dataTransfer) value.push(...event.dataTransfer.files);
+		if (event.dataTransfer) {
+			value = event.dataTransfer.files;
+			emitInput([...value]);
+		}
 	}
 
 	const onInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const { files: fileList } = currentTarget;
-		if (fileList) value.push(...fileList);
+
+		if (fileList) {
+			value = fileList;
+			emitInput([...value]);
+		}
 	};
 
 	function onDragover(event: DragEvent) {

@@ -21,7 +21,8 @@ export const load: PageServerLoad = async ({ cookies, locals: { db } }) => {
 			id: file.publicId,
 			name: file.name,
 			size: file.size,
-		};
+			uploaded: true,
+		} as const;
 	});
 
 	return {

@@ -2,10 +2,11 @@
 	import { formatBytes } from '$lib/formating';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import type { UploadedFile } from '$lib/types';
+	import ProgressBar from './ProgressBar.svelte';
+	import type { FileToUpload, UploadedFile } from '$lib/types';
 
 	type Props = {
-		file: File | UploadedFile;
+		file: UploadedFile | FileToUpload;
 		remove: (file: File) => void;
 	};
 
@@ -27,8 +28,8 @@
 	});
 
 	const submitFunction: SubmitFunction = async ({ cancel }) => {
-		if (file instanceof File) {
-			remove(file);
+		if (!file.uploaded) {
+			remove(file.upload.file);
 			cancel();
 		}
 	};
@@ -40,12 +41,16 @@
 		<div class="text-gray-5 text-sm">{fileInfo}</div>
 	</div>
 
-	<div>
-		<form method="POST" action="?/remove" use:enhance={submitFunction} class="flex flex-1 flex-col">
-			{#if 'id' in file}
-				<input type="hidden" name="file" value={file.id} />
-			{/if}
-			<button class="i-mdi-delete-outline hover:text-red-5">delete</button>
-		</form>
+	<div class="w-25/100 flex items-center justify-end">
+		{#if !file.uploaded && file.upload.status === 'uploading'}
+			<ProgressBar value={file.upload.progress} />
+		{:else}
+			<form method="POST" action="?/remove" use:enhance={submitFunction} class="flex items-center">
+				{#if 'id' in file}
+					<input type="hidden" name="file" value={file.id} />
+				{/if}
+				<button class="i-mdi-delete-outline hover:text-red-5">delete</button>
+			</form>
+		{/if}
 	</div>
 </div>

@@ -3,25 +3,33 @@
 	import type { ActionData, PageData, SubmitFunction } from './$types';
 	import Button from '$lib/components/Button.svelte';
 	import DropzoneInput from '$lib/components/DropzoneInput.svelte';
-	import UploadList from '$lib/components/UploadList.svelte';
+	import FilePreviewList from '$lib/components/FilePreviewList.svelte';
 	import { formatBytes } from '$lib/formating';
 	import Alert from '$lib/components/Alert.svelte';
 	import PortalChild from '$lib/components/PortalChild.svelte';
 	import ShareLink from '$lib/components/ShareLink.svelte';
 	import { uploadFile } from '$lib/upload.svelte';
+	import type { FileToUpload, UploadedFile } from '$lib/types';
 
 	type Props = { data: PageData; form: ActionData };
 	let { data, form }: Props = $props();
 
 	let loading = $state(false);
-	let selectedFiles = $state<File[]>([]);
 
-	let files = $derived.by(() => {
-		const ret = [];
-		if (data?.files) ret.push(...data.files);
-		ret.push(...selectedFiles);
-		return ret;
-	});
+	let uploadedFiles = $derived<UploadedFile[]>(data.files ?? []);
+	let filesToUpload = $state<FileToUpload[]>([]);
+	let files = $derived<(UploadedFile | FileToUpload)[]>([...uploadedFiles, ...filesToUpload]);
+
+	function onFileSelect(files: File[]): void {
+		files.forEach((file) => {
+			filesToUpload.push({
+				name: file.name,
+				size: file.size,
+				upload: uploadFile({ file }),
+				uploaded: false,
+			});
+		});
+	}
 
 	let sumSize = $derived(formatBytes(files.reduce((acc, cur) => acc + cur.size, 0)));
 	let sumFiles = $derived(`${files.length} ${files.length > 1 ? 'Files' : 'File'}`);
@@ -31,20 +39,18 @@
 		loading = true;
 
 		return async ({ result, update }) => {
-			console.log(result);
 			if (result.type === 'success' && result.data) {
 				const { publicId } = result.data;
 
 				await Promise.all(
 					files.map(async (file) => {
-						if (!(file instanceof File)) return;
-						const upload = uploadFile({ publicId, file });
-						return upload.start();
+						if (file.uploaded) return file;
+						return file.upload.start(publicId);
 					})
 				);
-			}
 
-			selectedFiles = [];
+				filesToUpload = [];
+			}
 
 			loading = false;
 			update();
@@ -64,12 +70,12 @@
 			enctype="multipart/form-data"
 			class="flex flex-1 flex-col gap-3"
 		>
-			<DropzoneInput name="file" multiple required bind:value={selectedFiles} />
+			<DropzoneInput name="file" multiple required oninput={onFileSelect} />
 
 			<Button icon="i-mdi-plus" class="w-max place-self-end" {loading}>Add files</Button>
 		</form>
 	{:else}
-		<UploadList {files} class="h-full" />
+		<FilePreviewList {files} class="h-full" />
 
 		<form
 			id="upload"
@@ -79,7 +85,7 @@
 			enctype="multipart/form-data"
 			class="flex flex-1 flex-col gap-3"
 		>
-			<DropzoneInput name="file" multiple required bind:value={selectedFiles} />
+			<DropzoneInput name="file" multiple required oninput={onFileSelect} />
 		</form>
 
 		<div class="flex items-center justify-between pt-4">

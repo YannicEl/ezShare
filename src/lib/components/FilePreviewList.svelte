@@ -1,15 +1,15 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
-	import UploadFilePreview from './UploadFilePreview.svelte';
-	import type { UploadedFile } from '$lib/types';
+	import FilePreview from './FilePreview.svelte';
+	import type { FileToUpload, UploadedFile } from '$lib/types';
 
 	type Props = {
-		files: UploadedFile[] | File[];
+		files: (UploadedFile | FileToUpload)[];
 	} & HTMLAttributes<HTMLUListElement>;
 	let { files, ...props }: Props = $props();
 
 	function removeFile(file: File): void {
-		const index = files.findIndex((_file) => (_file = file));
+		const index = files.findIndex((_file) => !_file.uploaded && _file.upload.file === file);
 		if (index < 0) return;
 		files.splice(index, 1);
 	}
@@ -18,7 +18,7 @@
 <ul {...props}>
 	{#each files as file}
 		<li class="py-2">
-			<UploadFilePreview {file} remove={removeFile} />
+			<FilePreview {file} remove={removeFile} />
 		</li>
 	{/each}
 </ul>

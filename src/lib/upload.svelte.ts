@@ -1,22 +1,26 @@
 import { _fetch } from './fetch';
 
 export type UploadFileParams = {
-	publicId: string;
 	file: File;
 };
 
+export type UploadStatus = 'not_started' | 'uploading' | 'done';
+
 export type FileUpload = {
-	start: () => Promise<string | undefined>;
-	abort: () => Promise<void>;
+	status: UploadStatus;
 	progress: number;
+	file: File;
+	start: (publicId: string) => Promise<string | undefined>;
 };
 
-export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
+export function uploadFile({ file }: UploadFileParams): FileUpload {
 	let progress = $state(0);
-	let uploadId: string | null = null;
+	let status = $state<UploadStatus>('not_started');
 
-	async function start() {
+	async function start(publicId: string) {
 		try {
+			status = 'uploading';
+
 			const { key, uploadId } = await createUpload({ filename: file.name, publicId });
 
 			const chunkSize = 1024 * 1024 * 10;
@@ -45,13 +49,13 @@ export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
 				});
 				uploadedParts.push(uploadedPart);
 
-				// progress = uploadedParts.length / chunks.length;
-
 				uploadedBytes += chunk.size;
 				partNumber++;
 			}
 
 			await completeUpload({ key, uploadId, uploadedParts });
+
+			status = 'done';
 
 			return key;
 		} catch (err) {
@@ -59,17 +63,15 @@ export function uploadFile({ publicId, file }: UploadFileParams): FileUpload {
 		}
 	}
 
-	async function abort() {
-		if (uploadId === null) return;
-		return abortUpload({ key, uploadId });
-	}
-
 	return {
-		start,
-		abort,
+		get status() {
+			return status;
+		},
 		get progress() {
 			return progress;
 		},
+		file,
+		start,
 	};
 }
 

@@ -1,6 +1,16 @@
+import type { FileUpload } from './upload.svelte';
+
 export type UploadedFile = {
-	uploadId: string;
+	uploaded: true;
 	id: string;
+	uploadId: string;
 	name: string;
 	size: number;
+};
+
+export type FileToUpload = {
+	uploaded: false;
+	name: string;
+	size: number;
+	upload: FileUpload;
 };

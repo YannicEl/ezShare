@@ -5,6 +5,14 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 [placement]
 mode = "smart"
 
+[env.preview.vars]
+NODE_VERSION = "20"
+PNPM_VERSION = "9"
+
+[env.production.vars]
+NODE_VERSION = "20"
+PNPM_VERSION = "9"
+
 [[env.preview.r2_buckets]]
 binding = 'BUCKET'
 bucket_name = 'ez-share-dev'

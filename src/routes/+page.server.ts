@@ -36,7 +36,7 @@ const uploadSchema = z.object({
 });
 
 const removeSchema = z.object({
-	file: z.string(),
+	fileId: z.string(),
 });
 
 export const actions: Actions = {
@@ -83,12 +83,14 @@ export const actions: Actions = {
 		const upload = await getUploadByPublicId(db, uploadId);
 		if (!upload) error(404, 'Upload not found');
 
-		const file = upload.files.find((file) => file.publicId === data.file);
+		const file = upload.files.find((file) => file.publicId === data.fileId);
 		if (!file) return fail(400, { error: 'file_not_found' });
 
 		await db.delete(dbFiles).where(eq(dbFiles.id, file.id));
 
 		await bucket.delete(`${upload.publicId}/${file.publicId}`);
+
+		return { success: true, action: 'remove', fileId: file.publicId } as const;
 	},
 
 	complete: async ({ request, cookies, locals: { db, bucket } }) => {

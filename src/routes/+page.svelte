@@ -15,18 +15,15 @@
 	let { data, form }: Props = $props();
 
 	let loading = $state(false);
+	let files = $state<(UploadedFile | FileToUpload)[]>(data.files ?? []);
 
-	let uploadedFiles = $derived<UploadedFile[]>(data.files ?? []);
-	let filesToUpload = $state<FileToUpload[]>([]);
-	let files = $derived<(UploadedFile | FileToUpload)[]>([...uploadedFiles, ...filesToUpload]);
-
-	function onFileSelect(files: File[]): void {
-		files.forEach((file) => {
-			filesToUpload.push({
+	function onFileSelect(selectedFiles: File[]): void {
+		selectedFiles.forEach((file) => {
+			files.push({
+				uploaded: false,
 				name: file.name,
 				size: file.size,
 				upload: uploadFile({ file }),
-				uploaded: false,
 			});
 		});
 	}
@@ -39,17 +36,23 @@
 		loading = true;
 
 		return async ({ result, update }) => {
-			if (result.type === 'success' && result.data) {
+			if (result.type === 'success' && result.data?.action === 'upload') {
 				const { publicId } = result.data;
 
-				await Promise.all(
+				files = await Promise.all(
 					files.map(async (file) => {
 						if (file.uploaded) return file;
-						return file.upload.start(publicId);
+						const fileId = await file.upload.start(publicId);
+
+						return {
+							uploaded: true,
+							id: fileId,
+							uploadId: publicId,
+							name: file.name,
+							size: file.size,
+						} satisfies UploadedFile;
 					})
 				);
-
-				filesToUpload = [];
 			}
 
 			loading = false;

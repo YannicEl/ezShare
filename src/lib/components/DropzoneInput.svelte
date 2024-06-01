@@ -2,25 +2,24 @@
 	import type { FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
 
 	type Props = {
-		value?: FileList;
-		oninput: (value: File[]) => void;
-	} & Omit<HTMLInputAttributes, 'type' | 'value' | 'oninput'>;
-	let { value = $bindable(), oninput: emitInput, ...props }: Props = $props();
+		files?: FileList;
+		oninput?: (value: File[]) => void;
+	} & Omit<HTMLInputAttributes, 'type' | 'oninput'>;
+	let { files = $bindable(), oninput: emitFiles = () => {}, ...props }: Props = $props();
 
 	function onDrop(event: DragEvent): void {
 		event.preventDefault();
 		if (event.dataTransfer) {
-			value = event.dataTransfer.files;
-			emitInput([...value]);
+			files = event.dataTransfer.files;
+			emitFiles([...files]);
 		}
 	}
 
 	const onInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const { files: fileList } = currentTarget;
-
 		if (fileList) {
-			value = fileList;
-			emitInput([...value]);
+			files = fileList;
+			emitFiles([...files]);
 		}
 	};
 
@@ -39,7 +38,7 @@
 
 		<div>Drag and drop or click to add files</div>
 
-		<input type="file" {...props} oninput={onInput} class=" w-full text-center" />
+		<input type="file" bind:files {...props} oninput={onInput} class=" w-full text-center" />
 	</div>
 </label>
 

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { formatBytes } from '$lib/formating';
 	import { enhance } from '$app/forms';
-	import type { SubmitFunction } from '@sveltejs/kit';
 	import ProgressBar from './ProgressBar.svelte';
 	import type { FileToUpload, UploadedFile } from '$lib/types';
+	import type { SubmitFunction } from '../../routes/$types';
 
 	type Props = {
 		file: UploadedFile | FileToUpload;
-		remove: (file: File) => void;
+		remove: (fileOrKey: File | string) => void;
 	};
 
 	let { file, remove }: Props = $props();
@@ -32,12 +32,18 @@
 			remove(file.upload.file);
 			cancel();
 		}
+
+		return ({ result }) => {
+			if (result.type === 'success' && result.data?.action === 'remove') {
+				remove(result.data.fileId);
+			}
+		};
 	};
 </script>
 
 <div class="flex items-center justify-between">
 	<div class="flex flex-col">
-		<div class="font-medium">{file.name}</div>
+		<div class="font-medium">{file.name} ({file.uploaded})</div>
 		<div class="text-gray-5 text-sm">{fileInfo}</div>
 	</div>
 
@@ -47,7 +53,7 @@
 		{:else}
 			<form method="POST" action="?/remove" use:enhance={submitFunction} class="flex items-center">
 				{#if 'id' in file}
-					<input type="hidden" name="file" value={file.id} />
+					<input type="hidden" name="fileId" value={file.id} />
 				{/if}
 				<button class="i-mdi-delete-outline hover:text-red-5">delete</button>
 			</form>

@@ -25,5 +25,5 @@ export const POST: RequestHandler = async ({ request, params, locals: { db, buck
 		},
 	});
 
-	return Response.json({ key, uploadId });
+	return Response.json({ fileId, key, uploadId });
 };

@@ -10,7 +10,7 @@ export type FileUpload = {
 	status: UploadStatus;
 	progress: number;
 	file: File;
-	start: (publicId: string) => Promise<string | undefined>;
+	start: (publicId: string) => Promise<string>;
 };
 
 export function uploadFile({ file }: UploadFileParams): FileUpload {
@@ -21,7 +21,7 @@ export function uploadFile({ file }: UploadFileParams): FileUpload {
 		try {
 			status = 'uploading';
 
-			const { key, uploadId } = await createUpload({ filename: file.name, publicId });
+			const { fileId, key, uploadId } = await createUpload({ filename: file.name, publicId });
 
 			const chunkSize = 1024 * 1024 * 10;
 			const chunks: Blob[] = [];
@@ -57,9 +57,10 @@ export function uploadFile({ file }: UploadFileParams): FileUpload {
 
 			status = 'done';
 
-			return key;
+			return fileId;
 		} catch (err) {
 			console.error(err);
+			throw new Error('Failed to upload file');
 		}
 	}
 
@@ -83,11 +84,14 @@ type CreateUploadParams = {
 async function createUpload({
 	filename,
 	publicId,
-}: CreateUploadParams): Promise<{ key: string; uploadId: string }> {
-	const result = await _fetch<{ key: string; uploadId: string }>(`/api/upload/${publicId}`, {
-		method: 'POST',
-		body: JSON.stringify({ filename }),
-	});
+}: CreateUploadParams): Promise<{ fileId: string; key: string; uploadId: string }> {
+	const result = await _fetch<{ fileId: string; key: string; uploadId: string }>(
+		`/api/upload/${publicId}`,
+		{
+			method: 'POST',
+			body: JSON.stringify({ filename }),
+		}
+	);
 
 	return result;
 }

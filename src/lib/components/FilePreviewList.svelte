@@ -5,8 +5,10 @@
 
 	type Props = {
 		files: (UploadedFile | FileToUpload)[];
+		allowDownload?: boolean;
+		allowRemove?: boolean;
 	} & HTMLAttributes<HTMLUListElement>;
-	let { files, ...props }: Props = $props();
+	let { files, allowDownload = true, allowRemove = true, ...props }: Props = $props();
 
 	function removeFile(fileOrKey: File | string): void {
 		const index = files.findIndex((file) => {
@@ -24,7 +26,7 @@
 <ul {...props}>
 	{#each files as file}
 		<li class="py-2">
-			<FilePreview {file} remove={removeFile} />
+			<FilePreview {file} {allowDownload} {allowRemove} remove={removeFile} />
 		</li>
 	{/each}
 </ul>

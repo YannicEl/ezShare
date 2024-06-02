@@ -1,5 +1,6 @@
 import { getDb } from '$lib/server/db';
-import { error, type Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	if (!event.platform?.env) error(500, 'Cloudflare bindings not found');

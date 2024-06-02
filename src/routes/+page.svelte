@@ -119,7 +119,10 @@
 	{/if}
 {:else}
 	<h1>Files uploaded</h1>
-	<p class="mb-4">Successfully uploaded your files. Copy and share the download link below.</p>
+	<p class="mb-4">
+		Successfully uploaded your files. Copy and share the
+		<a href={`/${form.publicId}`} target="_blank" class="underline">download link </a> below.
+	</p>
 
 	<ShareLink publicId={form.publicId} />
 {/if}

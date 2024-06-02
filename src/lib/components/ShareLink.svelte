@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Button from './Button.svelte';
+	import { env } from '$env/dynamic/public';
 
 	type Props = {
 		publicId: string;
 	};
 	let { publicId }: Props = $props();
 
-	let url = $derived(`https://share.yannic.at/${publicId}`);
+	let url = $derived(`${env.PUBLIC_FRONTEND_URL}/${publicId}`);
 	let copied = $state(false);
 
 	let isSupported = $state<boolean>();

@@ -9,13 +9,13 @@ const timestamps = {
 		.default(sql`CURRENT_TIMESTAMP`)
 		.$onUpdate(() => new Date())
 		.notNull(),
-	deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
 };
 
 export const uploads = sqliteTable('uploads', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	publicId: text('public_id').unique().notNull(),
-	status: text('status').notNull().$type<'open' | 'closed'>().default('open'),
+	completed: integer('completed', { mode: 'boolean' }).default(false),
+	expiresAt: integer('expires_at', { mode: 'timestamp_ms' }),
 	...timestamps,
 });
 

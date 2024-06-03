@@ -4,10 +4,11 @@
 
 	type Props = {
 		children: Snippet;
+		key?: string;
 	};
-	let { children }: Props = $props();
+	let { children, key }: Props = $props();
 
-	const id = addChildren(children);
+	const id = addChildren(children, key);
 
 	onDestroy(() => {
 		removeChildren(id);

@@ -4,6 +4,8 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import type { FileToUpload, UploadedFile } from '$lib/types';
 	import type { SubmitFunction } from '../../routes/$types';
+	import PortalChild from './PortalChild.svelte';
+	import Alert from './Alert.svelte';
 
 	type Props = {
 		file: UploadedFile | FileToUpload;
@@ -11,8 +13,9 @@
 		allowRemove?: boolean;
 		remove: (fileOrKey: File | string) => void;
 	};
-
 	let { file, allowDownload = true, allowRemove = true, remove }: Props = $props();
+
+	let error = $state<string>();
 
 	let suffix = $derived.by(() => {
 		const parts = file.name.split('.');
@@ -36,6 +39,10 @@
 		}
 
 		return ({ result }) => {
+			if (result.type === 'failure') {
+				error = result.data?.error;
+			}
+
 			if (result.type === 'success' && result.data?.action === 'remove') {
 				remove(result.data.fileId);
 			}
@@ -80,3 +87,11 @@
 		{/if}
 	</div>
 </div>
+
+<PortalChild key="upload_completed">
+	{#if error === 'upload_completed'}
+		<Alert type="error" title="Upload already completed">
+			You cannot upload or delete files on an already completed upload.
+		</Alert>
+	{/if}
+</PortalChild>

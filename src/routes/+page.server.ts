@@ -1,8 +1,10 @@
 import { maybeArrayToArray } from '$lib/helpers';
 import { getRandomId } from '$lib/random';
-import { getUploadByPublicId, insertFile, insertUpload, type SelectUpload } from '$lib/server/db';
+import type { SelectUpload } from '$lib/server/db';
+import { getUploadByPublicId, insertFile, insertUpload, updateUploadById } from '$lib/server/db';
 import { validateFormData } from '$lib/server/validation';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { files as dbFiles } from '../../drizzle/schema';
@@ -14,6 +16,8 @@ export const load: PageServerLoad = async ({ cookies, locals: { db } }) => {
 
 	const upload = await getUploadByPublicId(db, uploadId);
 	if (!upload) return;
+
+	// if (upload.completed) throw redirect(303, '/completed');
 
 	const files = upload.files.map((file) => {
 		return {
@@ -54,6 +58,8 @@ export const actions: Actions = {
 			cookies.set('uploadId', upload.publicId, { path: '/' });
 		}
 
+		if (upload.completed) return fail(400, { error: 'upload_completed' });
+
 		const files = maybeArrayToArray(data.file ?? []);
 
 		await Promise.all(
@@ -71,7 +77,7 @@ export const actions: Actions = {
 				})
 		);
 
-		return { success: true, action: 'upload', publicId: upload.publicId } as const;
+		return { action: 'upload', publicId: upload.publicId } as const;
 	},
 
 	remove: async ({ request, cookies, locals: { db, bucket } }) => {
@@ -83,6 +89,8 @@ export const actions: Actions = {
 		const upload = await getUploadByPublicId(db, uploadId);
 		if (!upload) error(404, 'Upload not found');
 
+		if (upload.completed) return fail(400, { error: 'upload_completed' });
+
 		const file = upload.files.find((file) => file.publicId === data.fileId);
 		if (!file) return fail(400, { error: 'file_not_found' });
 
@@ -90,16 +98,30 @@ export const actions: Actions = {
 
 		await bucket.delete(`${upload.publicId}/${file.publicId}`);
 
-		return { success: true, action: 'remove', fileId: file.publicId } as const;
+		return { action: 'remove', fileId: file.publicId } as const;
 	},
 
 	complete: async ({ request, cookies, locals: { db, bucket } }) => {
 		const uploadId = cookies.get('uploadId');
-		if (!uploadId) error(404, 'Upload not found');
+		if (!uploadId) {
+			cookies.delete('uploadId', { path: '/' });
+			error(404, 'Upload not found');
+		}
 
 		const upload = await getUploadByPublicId(db, uploadId);
-		if (!upload) error(404, 'Upload not found');
+		if (!upload) {
+			cookies.delete('uploadId', { path: '/' });
+			error(404, 'Upload not found');
+		}
 
-		return { success: true, action: 'complete', publicId: upload.publicId } as const;
+		if (!upload.files) fail(400, { error: 'no_files_uploaded' });
+
+		await updateUploadById(db, {
+			id: upload.id,
+			completed: true,
+			expiresAt: dayjs().add(7, 'day').toDate(),
+		});
+
+		redirect(303, '/completed');
 	},
 };

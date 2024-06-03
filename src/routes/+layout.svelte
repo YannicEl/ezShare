@@ -17,7 +17,7 @@
 			<slot />
 		</div>
 
-		<Portal class="mt-4 flex-1" />
+		<Portal class="mt-4 flex flex-1 flex-col gap-2" />
 	</main>
 
 	<Footer />

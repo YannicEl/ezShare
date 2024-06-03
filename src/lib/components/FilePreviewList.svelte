@@ -10,14 +10,8 @@
 	} & HTMLAttributes<HTMLUListElement>;
 	let { files, allowDownload = true, allowRemove = true, ...props }: Props = $props();
 
-	function removeFile(fileOrKey: File | string): void {
-		const index = files.findIndex((file) => {
-			if (file.uploaded && typeof fileOrKey === 'string') {
-				return file.id === fileOrKey;
-			} else if (!file.uploaded && fileOrKey instanceof File) {
-				return file.upload.file === fileOrKey;
-			}
-		});
+	function removeFile(file: UploadedFile | FileToUpload): void {
+		const index = files.indexOf(file);
 		if (index < 0) return;
 		files.splice(index, 1);
 	}

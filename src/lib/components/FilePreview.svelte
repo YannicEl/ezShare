@@ -11,7 +11,7 @@
 		file: UploadedFile | FileToUpload;
 		allowDownload?: boolean;
 		allowRemove?: boolean;
-		remove: (fileOrKey: File | string) => void;
+		remove: (file: UploadedFile | FileToUpload) => void;
 	};
 	let { file, allowDownload = true, allowRemove = true, remove }: Props = $props();
 
@@ -34,7 +34,7 @@
 
 	const submitFunction: SubmitFunction = async ({ cancel }) => {
 		if (!file.uploaded) {
-			remove(file.upload.file);
+			remove(file);
 			cancel();
 		}
 
@@ -44,7 +44,7 @@
 			}
 
 			if (result.type === 'success' && result.data?.action === 'remove') {
-				remove(result.data.fileId);
+				remove(file);
 			}
 		};
 	};

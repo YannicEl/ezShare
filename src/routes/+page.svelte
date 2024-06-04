@@ -108,6 +108,10 @@
 			<Alert type="error" title="Couldn't remove file">
 				It appears that the file has already been removed.
 			</Alert>
+		{:else if form.error === 'upload_completed'}
+			<Alert type="error" title="Upload already completed">
+				You cannot upload or delete files on an already completed upload.
+			</Alert>
 		{:else}
 			<Alert type="error" title="Unknown error">
 				An unknown error occured. Please try again or contact support.

@@ -36,7 +36,7 @@
 		"@sveltejs/adapter-cloudflare": "4.4.0",
 		"@sveltejs/kit": "2.5.10",
 		"@sveltejs/vite-plugin-svelte": "3.1.1",
-		"better-sqlite3": "^11.0.0",
+		"better-sqlite3": "11.0.0",
 		"dotenv": "16.4.5",
 		"drizzle-kit": "0.22.1",
 		"prettier": "3.3.0",

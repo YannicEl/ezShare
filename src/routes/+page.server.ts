@@ -53,8 +53,7 @@ export const actions: Actions = {
 			upload = await getUploadByPublicId(db, uploadId);
 			if (!upload) error(404, 'Upload not found');
 		} else {
-			const publicId = getRandomId();
-			upload = await insertUpload(db, { publicId });
+			upload = await insertUpload(db);
 			cookies.set('uploadId', upload.publicId, { path: '/' });
 		}
 
@@ -121,6 +120,8 @@ export const actions: Actions = {
 			completed: true,
 			expiresAt: dayjs().add(7, 'day').toDate(),
 		});
+
+		cookies.delete('uploadId', { path: '/' });
 
 		redirect(303, '/completed');
 	},

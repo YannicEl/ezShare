@@ -1,33 +1,12 @@
 {
-  "version": "6",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
       "version": "6",
-      "when": 1716205872515,
-      "tag": "0000_orange_khan",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1716968434362,
-      "tag": "0001_mute_kitty_pryde",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1716971928640,
-      "tag": "0002_uneven_deathstrike",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1717416693863,
-      "tag": "0003_common_dorian_gray",
+      "when": 1717515224895,
+      "tag": "0000_secret_mentallo",
       "breakpoints": true
     }
   ]

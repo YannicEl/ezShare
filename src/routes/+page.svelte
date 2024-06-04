@@ -86,7 +86,7 @@
 		enctype="multipart/form-data"
 		class="flex flex-1 flex-col gap-3"
 	>
-		<DropzoneInput name="file" multiple required oninput={onFileSelect} />
+		<DropzoneInput name="file" multiple oninput={onFileSelect} />
 	</form>
 
 	<div class="flex items-center justify-between pt-4">

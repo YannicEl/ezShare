@@ -1,5 +1,6 @@
 import { relations, sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { getRandomId } from '../src/lib/random';
 
 const timestamps = {
 	createdAt: integer('created_at', { mode: 'timestamp_ms' })
@@ -13,8 +14,8 @@ const timestamps = {
 
 export const uploads = sqliteTable('uploads', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
-	publicId: text('public_id').unique().notNull(),
-	completed: integer('completed', { mode: 'boolean' }).default(false),
+	publicId: text('public_id').unique().default(getRandomId()).notNull(),
+	completed: integer('completed', { mode: 'boolean' }).default(false).notNull(),
 	expiresAt: integer('expires_at', { mode: 'timestamp_ms' }),
 	...timestamps,
 });
@@ -25,7 +26,7 @@ export const uploadsRelations = relations(uploads, ({ many }) => ({
 
 export const files = sqliteTable('files', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
-	publicId: text('public_id').unique().notNull(),
+	publicId: text('public_id').unique().default(getRandomId()).notNull(),
 	uploadId: integer('upload_id')
 		.references(() => uploads.id)
 		.notNull(),

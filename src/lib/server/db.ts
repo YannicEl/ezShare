@@ -31,7 +31,7 @@ export async function insertFile(db: DB, values: InsertFile): Promise<SelectFile
 
 export type SelectUpload = InferSelectModel<typeof uploads>;
 export type InsertUpload = InferInsertModel<typeof uploads>;
-export async function insertUpload(db: DB, values: InsertUpload): Promise<SelectUpload> {
+export async function insertUpload(db: DB, values: InsertUpload = {}): Promise<SelectUpload> {
 	return insert(db, uploads, values);
 }
 

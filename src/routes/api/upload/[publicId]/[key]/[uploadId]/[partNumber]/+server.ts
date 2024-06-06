@@ -7,8 +7,10 @@ export const PUT: RequestHandler = async ({ request, params, locals: { bucket } 
 	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 
 	// TODO Only needed because of a minifalre bug https://github.com/cloudflare/workers-sdk/issues/4373
-	const body = await request.blob();
-	if (!request.body) error(404, { message: 'No Body' });
+	const body = request.headers.get('host')?.includes('localhost')
+		? await request.blob()
+		: request.body;
+	if (!body) error(404, { message: 'No Body' });
 
 	const uploadPart = await multipartUpload.uploadPart(Number(partNumber), body);
 

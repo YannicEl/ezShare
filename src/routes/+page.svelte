@@ -9,6 +9,7 @@
 	import PortalChild from '$lib/components/PortalChild.svelte';
 	import { uploadFile } from '$lib/upload.svelte';
 	import type { FileToUpload, UploadedFile } from '$lib/types';
+	import { concurrencPromises } from '$lib/promises';
 
 	type Props = { data: PageData; form: ActionData };
 	let { data, form }: Props = $props();
@@ -38,19 +39,25 @@
 			if (result.type === 'success' && result.data?.action === 'upload') {
 				const { publicId } = result.data;
 
-				files = await Promise.all(
-					files.map(async (file) => {
-						if (file.uploaded) return file;
-						const fileId = await file.upload.start(publicId);
+				await concurrencPromises(
+					files
+						.sort((a, b) => a.size - b.size)
+						.map((file) => async () => {
+							if (file.uploaded) return file;
+							const fileId = await file.upload.start(publicId);
 
-						return {
-							uploaded: true,
-							id: fileId,
-							uploadId: publicId,
-							name: file.name,
-							size: file.size,
-						} satisfies UploadedFile;
-					})
+							const uploadedFile: UploadedFile = {
+								uploaded: true,
+								id: fileId,
+								uploadId: publicId,
+								name: file.name,
+								size: file.size,
+							};
+
+							const index = files.indexOf(file);
+							files[index] = uploadedFile;
+						}),
+					2
 				);
 			}
 

@@ -1,4 +1,5 @@
 import { _fetch } from './fetch';
+import { concurrencPromises } from './promises';
 
 export type UploadFileParams = {
 	file: File;
@@ -33,25 +34,26 @@ export function uploadFile({ file }: UploadFileParams): FileUpload {
 				currentChunkStart += chunkSize;
 			}
 
-			const uploadedParts: R2UploadedPart[] = [];
-
-			let partNumber = 1;
 			let uploadedBytes = 0;
-			for await (const chunk of chunks) {
-				const uploadedPart = await uploadPart({
-					key,
-					uploadId,
-					partNumber,
-					part: chunk,
-					callback: (chunkProgress) => {
-						progress = (uploadedBytes + chunk.size * chunkProgress) / file.size;
-					},
-				});
-				uploadedParts.push(uploadedPart);
+			const uploadedParts = await concurrencPromises(
+				chunks.map((chunk, index) => {
+					return async () => {
+						const uploadedPart = await uploadPart({
+							key,
+							uploadId,
+							partNumber: index + 1,
+							part: chunk,
+							callback: (chunkProgress) => {
+								progress = (uploadedBytes + chunk.size * chunkProgress) / file.size;
+							},
+						});
 
-				uploadedBytes += chunk.size;
-				partNumber++;
-			}
+						uploadedBytes += chunk.size;
+						return uploadedPart;
+					};
+				}),
+				3
+			);
 
 			await completeUpload({ key, uploadId, uploadedParts });
 

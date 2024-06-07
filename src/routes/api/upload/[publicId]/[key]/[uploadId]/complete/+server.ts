@@ -2,7 +2,6 @@ import { getUploadByPublicId, insertFile } from '$lib/server/db';
 import { validateJsonData } from '$lib/server/validation';
 import { error } from '@sveltejs/kit';
 import { z } from 'zod';
-import type { RequestHandler } from './$types';
 
 const schema = z.object({
 	uploadedParts: z.array(
@@ -19,7 +18,7 @@ const metadataSchema = z.object({
 	publicId: z.string(),
 });
 
-export const POST: RequestHandler = async ({ request, params, locals: { db, bucket } }) => {
+export const POST = async ({ request, params, locals: { db, bucket } }) => {
 	const data = await validateJsonData(schema, request);
 
 	const { publicId, key, uploadId } = params;

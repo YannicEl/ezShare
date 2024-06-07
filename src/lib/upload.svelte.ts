@@ -52,7 +52,7 @@ export function uploadFile({ file }: UploadFileParams): FileUpload {
 						return uploadedPart;
 					};
 				}),
-				3
+				2
 			);
 
 			await completeUpload({ key, uploadId, uploadedParts });

@@ -8,9 +8,8 @@ import dayjs from 'dayjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { files as dbFiles } from '../../drizzle/schema';
-import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ cookies, locals: { db } }) => {
+export const load = async ({ cookies, locals: { db } }) => {
 	const uploadId = cookies.get('uploadId');
 	if (!uploadId) return;
 
@@ -43,7 +42,7 @@ const removeSchema = z.object({
 	fileId: z.string(),
 });
 
-export const actions: Actions = {
+export const actions = {
 	upload: async ({ request, cookies, locals: { db, bucket } }) => {
 		const data = await validateFormData(uploadSchema, request);
 

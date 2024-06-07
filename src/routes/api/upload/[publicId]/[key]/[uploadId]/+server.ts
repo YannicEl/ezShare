@@ -1,6 +1,4 @@
-import type { RequestHandler } from './$types';
-
-export const DELETE: RequestHandler = async ({ params, locals: { bucket } }) => {
+export const DELETE = async ({ params, locals: { bucket } }) => {
 	const { publicId, key, uploadId } = params;
 	const multipartUpload = bucket.resumeMultipartUpload(`${publicId}/${key}`, uploadId);
 

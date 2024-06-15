@@ -16,26 +16,26 @@ importers:
         version: 1.11.11
       drizzle-orm:
         specifier: 0.31.2
-        version: 0.31.2(@cloudflare/workers-types@4.20240605.0)(better-sqlite3@11.0.0)
+        version: 0.31.2(@cloudflare/workers-types@4.20240614.0)(better-sqlite3@11.0.0)
       zod:
         specifier: 3.23.8
         version: 3.23.8
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: 4.20240605.0
-        version: 4.20240605.0
+        specifier: 4.20240614.0
+        version: 4.20240614.0
       '@playwright/test':
         specifier: 1.44.1
         version: 1.44.1
       '@sveltejs/adapter-cloudflare':
         specifier: 4.4.1
-        version: 4.4.1(@sveltejs/kit@2.5.11(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(wrangler@3.60.2(@cloudflare/workers-types@4.20240605.0))
+        version: 4.4.1(@sveltejs/kit@2.5.15(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(wrangler@3.60.3(@cloudflare/workers-types@4.20240614.0))
       '@sveltejs/kit':
-        specifier: 2.5.11
-        version: 2.5.11(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+        specifier: 2.5.15
+        version: 2.5.15(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       '@sveltejs/vite-plugin-svelte':
         specifier: 3.1.1
-        version: 3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+        version: 3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       better-sqlite3:
         specifier: 11.0.0
         version: 11.0.0
@@ -71,16 +71,16 @@ importers:
         version: 5.4.5
       unocss:
         specifier: 0.61.0
-        version: 0.61.0(postcss@8.4.38)(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))
+        version: 0.61.0(postcss@8.4.38)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))
       vite:
-        specifier: 5.3.0
-        version: 5.3.0(@types/node@20.14.1)
+        specifier: 5.3.1
+        version: 5.3.1(@types/node@20.14.1)
       vitest:
         specifier: 1.6.0
         version: 1.6.0(@types/node@20.14.1)
       wrangler:
-        specifier: 3.60.2
-        version: 3.60.2(@cloudflare/workers-types@4.20240605.0)
+        specifier: 3.60.3
+        version: 3.60.3(@cloudflare/workers-types@4.20240614.0)
 
 packages:
 
@@ -247,38 +247,38 @@ packages:
     resolution: {integrity: sha512-EeEjMobfuJrwoctj7FA1y1KEbM0+Q1xSjobIEyie9k4haVEBB7vkDvsasw1pM3rO39mL2akxIAzLMUAtrMHZhA==}
     engines: {node: '>=16.13'}
 
-  '@cloudflare/workerd-darwin-64@1.20240605.0':
-    resolution: {integrity: sha512-6V4Uze6jEM1mPBdPO6AevPwAOG2s+auEG1vPzZilwbrpn3BbYklEpQqcAZj05uUXaM6rnffnXerW8X8Fc8l4qQ==}
+  '@cloudflare/workerd-darwin-64@1.20240610.1':
+    resolution: {integrity: sha512-YanZ1iXgMGaUWlleB5cswSE6qbzyjQ8O7ENWZcPAcZZ6BfuL7q3CWi0t9iM1cv2qx92rRztsRTyjcfq099++XQ==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [darwin]
 
-  '@cloudflare/workerd-darwin-arm64@1.20240605.0':
-    resolution: {integrity: sha512-ZNxjVSeMYUhTfVlrMsVjpN5eHA2kq3+S7ZMsGu5l44ZqFrDygsFDoc9C4anJVUEIHGFUB9LMu4ZTdS5S80hvPQ==}
+  '@cloudflare/workerd-darwin-arm64@1.20240610.1':
+    resolution: {integrity: sha512-bRe/y/LKjIgp3L2EHjc+CvoCzfHhf4aFTtOBkv2zW+VToNJ4KlXridndf7LvR9urfsFRRo9r4TXCssuKaU+ypQ==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [darwin]
 
-  '@cloudflare/workerd-linux-64@1.20240605.0':
-    resolution: {integrity: sha512-zqOWDrYEudW5JCcU8lxCFQ96UHJJHrM+uvGaRS4u5nJaEgMr2z7u9I2286+l1R3JWvJdqj9ehGuHQvZkaTADxw==}
+  '@cloudflare/workerd-linux-64@1.20240610.1':
+    resolution: {integrity: sha512-2zDcadR7+Gs9SjcMXmwsMji2Xs+yASGNA2cEHDuFc4NMUup+eL1mkzxc/QzvFjyBck98e92rBjMZt2dVscpGKg==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [linux]
 
-  '@cloudflare/workerd-linux-arm64@1.20240605.0':
-    resolution: {integrity: sha512-qFTVNem7bMsU9P1dXUi+kb8EdU5aag1I9RQq6ZLS/zfiJ0a/UasihwQG8lrzT7k9x80VnpyCekNmd625qsVZjQ==}
+  '@cloudflare/workerd-linux-arm64@1.20240610.1':
+    resolution: {integrity: sha512-7y41rPi5xmIYJN8CY+t3RHnjLL0xx/WYmaTd/j552k1qSr02eTE2o/TGyWZmGUC+lWnwdPQJla0mXbvdqgRdQg==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [linux]
 
-  '@cloudflare/workerd-windows-64@1.20240605.0':
-    resolution: {integrity: sha512-s0U7d52ALQtb0enbHJ/AXmy+pyBQVoTIaAdAApy/PWrMiAnb8iJhf7A35pRTYfty5SUf7EX9BAPcKmeh+t3N5g==}
+  '@cloudflare/workerd-windows-64@1.20240610.1':
+    resolution: {integrity: sha512-B0LyT3DB6rXHWNptnntYHPaoJIy0rXnGfeDBM3nEVV8JIsQrx8MEFn2F2jYioH1FkUVavsaqKO/zUosY3tZXVA==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-types@4.20240605.0':
-    resolution: {integrity: sha512-zJw4Q6CnkaQ5JZmHRkNiSs5GfiRgUIUL8BIHPQkd2XUHZkIBv9M9yc0LKEwMYGpCFC+oSOltet6c9RjP9uQ99g==}
+  '@cloudflare/workers-types@4.20240614.0':
+    resolution: {integrity: sha512-fnV3uXD1Hpq5EWnY7XYb+smPcjzIoUFiZpTSV/Tk8qKL3H+w6IqcngZwXQBZ/2U/DwYkDilXHW3FfPhnyD7FZA==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -1131,8 +1131,8 @@ packages:
       '@sveltejs/kit': ^2.0.0
       wrangler: ^3.28.4
 
-  '@sveltejs/kit@2.5.11':
-    resolution: {integrity: sha512-zsx/wI8/z0pvoJkKg0pxFpfYR/DgIxJyik7BemLSYd4n9GO4R/GJQ4zMVg27VjJtxnyWh3SDptL2CDomQctUpg==}
+  '@sveltejs/kit@2.5.15':
+    resolution: {integrity: sha512-O3yB2Z84xllzaRyBLAw/jCi74wx9hTszs6mqUj4pbKsGBRHtTXl3qA+yvKbfXnxNhab/jEyVfphB9q6jU05dpg==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -1897,8 +1897,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  miniflare@3.20240605.0:
-    resolution: {integrity: sha512-wE59RULU5zo6eYhL8j3wYdoOQ5istlkMruEr5pYvykL0LJecjKlFc8/cu4WJ5JdkdhutE1320Awi7WEICcolEw==}
+  miniflare@3.20240610.0:
+    resolution: {integrity: sha512-J6aXmkII5gcq+kC4TurxKiR4rC++apPST/K8P/YjqoQQgrJ+NRPacBhf6iVh8R3ujnXYXaq+Ae+gm+LM0XHK/w==}
     engines: {node: '>=16.13'}
     hasBin: true
 
@@ -2466,8 +2466,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite@5.3.0:
-    resolution: {integrity: sha512-hA6vAVK977NyW1Qw+fLvqSo7xDPej7von7C3DwwqPRmnnnK36XEBC/J3j1V5lP8fbt7y0TgTKJbpNGSwM+Bdeg==}
+  vite@5.3.1:
+    resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -2537,8 +2537,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  workerd@1.20240605.0:
-    resolution: {integrity: sha512-2yhzgaprAOFm7H988xlRFmU4rOLXhSsq24wh6ayucMB3ORfe/nYJ2ysFn1mzjB+UxEJVt5PhixgHkZLv1S8UPQ==}
+  workerd@1.20240610.1:
+    resolution: {integrity: sha512-Rtut5GrsODQMh6YU43b9WZ980Wd05Ov1/ds88pT/SoetmXFBvkBzdRfiHiATv+azmGX8KveE0i/Eqzk/yI01ug==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -2546,8 +2546,8 @@ packages:
     resolution: {integrity: sha512-+TvsA6VAVoMC3XDKR5MoC/qlLqDixEfOBysDEKnPIPou/NvoPWCAuXHXMsswwlvmEuvX56lQjvELLyLuzTKvRw==}
     engines: {node: '>=12'}
 
-  wrangler@3.60.2:
-    resolution: {integrity: sha512-lGIuxzaVm8W0ddzwzwZtx3kL/0PUGMZfKBayUzcMq5wGk88aE9UA2lYeGF51EHVXX2yBbnw7Ltw2eXsx2ixNOQ==}
+  wrangler@3.60.3:
+    resolution: {integrity: sha512-a6zn/KFnYaYp3nxJR/aP0TeaBvJDkrrfI89KoxUtx28H7zpya/5/VLu3CxQ3PRspEojJGF0s6f3/pddRy3F+BQ==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -2833,22 +2833,22 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
-  '@cloudflare/workerd-darwin-64@1.20240605.0':
+  '@cloudflare/workerd-darwin-64@1.20240610.1':
     optional: true
 
-  '@cloudflare/workerd-darwin-arm64@1.20240605.0':
+  '@cloudflare/workerd-darwin-arm64@1.20240610.1':
     optional: true
 
-  '@cloudflare/workerd-linux-64@1.20240605.0':
+  '@cloudflare/workerd-linux-64@1.20240610.1':
     optional: true
 
-  '@cloudflare/workerd-linux-arm64@1.20240605.0':
+  '@cloudflare/workerd-linux-arm64@1.20240610.1':
     optional: true
 
-  '@cloudflare/workerd-windows-64@1.20240605.0':
+  '@cloudflare/workerd-windows-64@1.20240610.1':
     optional: true
 
-  '@cloudflare/workers-types@4.20240605.0': {}
+  '@cloudflare/workers-types@4.20240614.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -3331,17 +3331,17 @@ snapshots:
 
   '@sinclair/typebox@0.27.8': {}
 
-  '@sveltejs/adapter-cloudflare@4.4.1(@sveltejs/kit@2.5.11(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(wrangler@3.60.2(@cloudflare/workers-types@4.20240605.0))':
+  '@sveltejs/adapter-cloudflare@4.4.1(@sveltejs/kit@2.5.15(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(wrangler@3.60.3(@cloudflare/workers-types@4.20240614.0))':
     dependencies:
-      '@cloudflare/workers-types': 4.20240605.0
-      '@sveltejs/kit': 2.5.11(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+      '@cloudflare/workers-types': 4.20240614.0
+      '@sveltejs/kit': 2.5.15(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       esbuild: 0.20.2
       worktop: 0.8.0-next.18
-      wrangler: 3.60.2(@cloudflare/workers-types@4.20240605.0)
+      wrangler: 3.60.3(@cloudflare/workers-types@4.20240614.0)
 
-  '@sveltejs/kit@2.5.11(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))':
+  '@sveltejs/kit@2.5.15(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+      '@sveltejs/vite-plugin-svelte': 3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       '@types/cookie': 0.6.0
       cookie: 0.6.0
       devalue: 5.0.0
@@ -3355,28 +3355,28 @@ snapshots:
       sirv: 2.0.4
       svelte: 5.0.0-next.155
       tiny-glob: 0.2.9
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
 
-  '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))':
+  '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+      '@sveltejs/vite-plugin-svelte': 3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       debug: 4.3.4
       svelte: 5.0.0-next.155
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
     transitivePeerDependencies:
       - supports-color
 
-  '@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))':
+  '@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.0(@types/node@20.14.1))
+      '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1)))(svelte@5.0.0-next.155)(vite@5.3.1(@types/node@20.14.1))
       debug: 4.3.4
       deepmerge: 4.3.1
       kleur: 4.1.5
       magic-string: 0.30.10
       svelte: 5.0.0-next.155
       svelte-hmr: 0.16.0(svelte@5.0.0-next.155)
-      vite: 5.3.0(@types/node@20.14.1)
-      vitefu: 0.2.5(vite@5.3.0(@types/node@20.14.1))
+      vite: 5.3.1(@types/node@20.14.1)
+      vitefu: 0.2.5(vite@5.3.1(@types/node@20.14.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -3394,13 +3394,13 @@ snapshots:
 
   '@types/pug@2.0.10': {}
 
-  '@unocss/astro@0.61.0(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))':
+  '@unocss/astro@0.61.0(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))':
     dependencies:
       '@unocss/core': 0.61.0
       '@unocss/reset': 0.61.0
-      '@unocss/vite': 0.61.0(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))
+      '@unocss/vite': 0.61.0(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))
     optionalDependencies:
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
     transitivePeerDependencies:
       - rollup
 
@@ -3531,7 +3531,7 @@ snapshots:
     dependencies:
       '@unocss/core': 0.61.0
 
-  '@unocss/vite@0.61.0(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))':
+  '@unocss/vite@0.61.0(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@rollup/pluginutils': 5.1.0(rollup@4.18.0)
@@ -3543,7 +3543,7 @@ snapshots:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       magic-string: 0.30.10
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
     transitivePeerDependencies:
       - rollup
 
@@ -3779,9 +3779,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.31.2(@cloudflare/workers-types@4.20240605.0)(better-sqlite3@11.0.0):
+  drizzle-orm@0.31.2(@cloudflare/workers-types@4.20240614.0)(better-sqlite3@11.0.0):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20240605.0
+      '@cloudflare/workers-types': 4.20240614.0
       better-sqlite3: 11.0.0
 
   duplexer@0.1.2: {}
@@ -4175,7 +4175,7 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  miniflare@3.20240605.0:
+  miniflare@3.20240610.0:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       acorn: 8.11.3
@@ -4185,7 +4185,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       stoppable: 1.1.0
       undici: 5.28.4
-      workerd: 1.20240605.0
+      workerd: 1.20240610.1
       ws: 8.17.0
       youch: 3.3.3
       zod: 3.23.8
@@ -4674,9 +4674,9 @@ snapshots:
       pathe: 1.1.2
       ufo: 1.5.3
 
-  unocss@0.61.0(postcss@8.4.38)(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1)):
+  unocss@0.61.0(postcss@8.4.38)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1)):
     dependencies:
-      '@unocss/astro': 0.61.0(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))
+      '@unocss/astro': 0.61.0(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))
       '@unocss/cli': 0.61.0(rollup@4.18.0)
       '@unocss/core': 0.61.0
       '@unocss/extractor-arbitrary-variants': 0.61.0
@@ -4695,9 +4695,9 @@ snapshots:
       '@unocss/transformer-compile-class': 0.61.0
       '@unocss/transformer-directives': 0.61.0
       '@unocss/transformer-variant-group': 0.61.0
-      '@unocss/vite': 0.61.0(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.1))
+      '@unocss/vite': 0.61.0(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.1))
     optionalDependencies:
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -4717,7 +4717,7 @@ snapshots:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4728,7 +4728,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.3.0(@types/node@20.14.1):
+  vite@5.3.1(@types/node@20.14.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.38
@@ -4737,9 +4737,9 @@ snapshots:
       '@types/node': 20.14.1
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.3.0(@types/node@20.14.1)):
+  vitefu@0.2.5(vite@5.3.1(@types/node@20.14.1)):
     optionalDependencies:
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
 
   vitest@1.6.0(@types/node@20.14.1):
     dependencies:
@@ -4760,7 +4760,7 @@ snapshots:
       strip-literal: 2.1.0
       tinybench: 2.8.0
       tinypool: 0.8.4
-      vite: 5.3.0(@types/node@20.14.1)
+      vite: 5.3.1(@types/node@20.14.1)
       vite-node: 1.6.0(@types/node@20.14.1)
       why-is-node-running: 2.2.2
     optionalDependencies:
@@ -4783,20 +4783,20 @@ snapshots:
       siginfo: 2.0.0
       stackback: 0.0.2
 
-  workerd@1.20240605.0:
+  workerd@1.20240610.1:
     optionalDependencies:
-      '@cloudflare/workerd-darwin-64': 1.20240605.0
-      '@cloudflare/workerd-darwin-arm64': 1.20240605.0
-      '@cloudflare/workerd-linux-64': 1.20240605.0
-      '@cloudflare/workerd-linux-arm64': 1.20240605.0
-      '@cloudflare/workerd-windows-64': 1.20240605.0
+      '@cloudflare/workerd-darwin-64': 1.20240610.1
+      '@cloudflare/workerd-darwin-arm64': 1.20240610.1
+      '@cloudflare/workerd-linux-64': 1.20240610.1
+      '@cloudflare/workerd-linux-arm64': 1.20240610.1
+      '@cloudflare/workerd-windows-64': 1.20240610.1
 
   worktop@0.8.0-next.18:
     dependencies:
       mrmime: 2.0.0
       regexparam: 3.0.0
 
-  wrangler@3.60.2(@cloudflare/workers-types@4.20240605.0):
+  wrangler@3.60.3(@cloudflare/workers-types@4.20240614.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.2
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
@@ -4804,7 +4804,7 @@ snapshots:
       blake3-wasm: 2.1.5
       chokidar: 3.6.0
       esbuild: 0.17.19
-      miniflare: 3.20240605.0
+      miniflare: 3.20240610.0
       nanoid: 3.3.7
       path-to-regexp: 6.2.2
       resolve: 1.22.8
@@ -4814,7 +4814,7 @@ snapshots:
       unenv: unenv-nightly@1.10.0-1717606461.a117952
       xxhash-wasm: 1.0.2
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20240605.0
+      '@cloudflare/workers-types': 4.20240614.0
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil

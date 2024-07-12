@@ -31,7 +31,7 @@
 		"migrations:run:prod": "drizzle-kit migrate -- --prod"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20240701.0",
+		"@cloudflare/workers-types": "4.20240712.0",
 		"@playwright/test": "1.45.1",
 		"@sveltejs/adapter-cloudflare": "4.6.1",
 		"@sveltejs/kit": "2.5.18",
@@ -43,7 +43,7 @@
 		"prettier-plugin-organize-imports": "4.0.0",
 		"prettier-plugin-svelte": "3.2.5",
 		"prettier-plugin-tailwindcss": "0.6.5",
-		"svelte": "5.0.0-next.182",
+		"svelte": "5.0.0-next.183",
 		"svelte-check": "3.8.4",
 		"tslib": "2.6.3",
 		"typescript": "5.5.3",

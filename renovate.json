@@ -4,11 +4,7 @@
 	"extends": ["config:recommended", "group:allNonMajor", ":semanticCommitTypeAll(chore)"],
 	"packageRules": [
 		{
-			"packageNames": ["node"],
-			"enabled": false
-		},
-    {
-			"packageNames": ["pnpm"],
+			"matchDepTypes": ["engines"],
 			"enabled": false
 		}
 	],

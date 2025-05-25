@@ -11,7 +11,7 @@ const config = {
 		adapter: adapter({
 			platformProxy: {
 				configPath: 'wrangler.jsonc',
-				environment: 'preview',
+				environment: 'dev',
 				persist: true,
 			},
 		}),

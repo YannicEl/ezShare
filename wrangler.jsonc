@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "lexaru-dashboard",
+	"name": "ez-share",
 	"main": "./.cloudflare/worker.js",
 	"assets": {
 		"directory": ".cloudflare/public",

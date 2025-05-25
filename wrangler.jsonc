@@ -1,0 +1,56 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "lexaru-dashboard",
+	"main": "./.cloudflare/worker.js",
+	"assets": {
+		"directory": ".cloudflare/public",
+		"binding": "ASSETS",
+	},
+	"compatibility_date": "2025-05-25",
+
+	"observability": { "enabled": true },
+	"placement": { "mode": "smart" },
+
+	"env": {
+		"dev": {
+			"routes": [{ "pattern": "dev.share.yannic.at", "custom_domain": true }],
+			"vars": {
+				"NODE_VERSION": "22",
+				"PNPM_VERSION": "10",
+			},
+			"r2_buckets": [
+				{
+					"binding": "BUCKET",
+					"bucket_name": "ez-share-dev",
+				},
+			],
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "ez-share-dev",
+					"database_id": "b17f1388-92c0-42c4-a28a-04fe1a5d2223",
+				},
+			],
+		},
+		"prod": {
+			"routes": [{ "pattern": "share.yannic.at", "custom_domain": true }],
+			"vars": {
+				"NODE_VERSION": "22",
+				"PNPM_VERSION": "10",
+			},
+			"r2_buckets": [
+				{
+					"binding": "BUCKET",
+					"bucket_name": "ez-share-prod",
+				},
+			],
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "ez-share-prod",
+					"database_id": "f434d564-f3a4-43aa-bd2b-fb11649d0216",
+				},
+			],
+		},
+	},
+}

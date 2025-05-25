@@ -19,9 +19,9 @@
 		"test:unit": "vitest",
 		"lint": "prettier --check .",
 		"format": "prettier --write .",
-		"deploy:dev": "pnpm build && wrangler pages deploy --branch dev",
-		"deploy:prod": "pnpm build && wrangler pages deploy --branch main",
-		"cf-typegen": "wrangler types --env preview  && move worker-configuration.d.ts src/",
+		"deploy:dev": "pnpm build && wrangler deploy --env dev",
+		"deploy:prod": "pnpm build && wrangler deploy --env main",
+		"cf-typegen": "wrangler types --env dev",
 		"studio:local": "drizzle-kit studio",
 		"studio:dev": "drizzle-kit studio -- --dev",
 		"studio:prod": "drizzle-kit studio -- --prod",
@@ -33,7 +33,6 @@
 		"prepare": "svelte-kit sync"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20250525.0",
 		"@playwright/test": "1.52.0",
 		"@sveltejs/adapter-cloudflare": "4.9.0",
 		"@sveltejs/kit": "2.21.1",

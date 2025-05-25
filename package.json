@@ -20,7 +20,7 @@
 		"lint": "prettier --check .",
 		"format": "prettier --write .",
 		"deploy:dev": "pnpm build && wrangler deploy --env dev",
-		"deploy:prod": "pnpm build && wrangler deploy --env main",
+		"deploy:prod": "pnpm build && wrangler deploy --env prod",
 		"cf-typegen": "wrangler types --env dev",
 		"studio:local": "drizzle-kit studio",
 		"studio:dev": "drizzle-kit studio -- --dev",

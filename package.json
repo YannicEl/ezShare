@@ -17,7 +17,7 @@
 		"test": "pnpm run test:integration && pnpm run test:unit",
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
-		"lint": "prettier --check .",
+		"format:check": "prettier --check .",
 		"format": "prettier --write .",
 		"deploy:dev": "pnpm build && wrangler deploy --env dev",
 		"deploy:prod": "pnpm build && wrangler deploy --env prod",

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Button from './Button.svelte';
-	import { env } from '$env/dynamic/public';
+	import { page } from '$app/state';
 
 	type Props = {
 		publicId: string;
 	};
 	let { publicId }: Props = $props();
 
-	let url = $derived(`${env.PUBLIC_FRONTEND_URL}/${publicId}`);
+	let url = $derived(`${page.url.origin}/${publicId}`);
 	let copied = $state(false);
 
 	let isSupported = $state<boolean>();
